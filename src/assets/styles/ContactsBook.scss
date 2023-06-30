@@ -1,0 +1,11 @@
+.contacts-book{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__title{
+        margin-top: 50px;
+        color: white;
+    }
+}
