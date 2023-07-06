@@ -1,0 +1,18 @@
+@import "../MainVariables.scss";
+
+.form-btns {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+  gap: 10px;
+
+  .btn--red {
+    @include btn;
+    background-color: red;
+  }
+
+  .btn--green {
+    @include btn;
+    background-color: green;
+  }
+}

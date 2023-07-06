@@ -1,0 +1,15 @@
+@import "../../../assets/styles/MainVariables.scss";
+
+.select {
+  outline: none;
+  border: 1px solid $color;
+  border-radius: $radius;
+  width: 200px;
+  height: 30px;
+  cursor: pointer;
+  padding-inline: 5px;
+
+  &__item {
+    font-size: 1rem;
+  }
+}
