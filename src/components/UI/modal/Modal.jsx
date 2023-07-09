@@ -4,10 +4,10 @@ import "./Modal.scss";
 export default function Modal({ children, visible, setVisible }) {
   return (
     <div
-      className={visible ? "modal modal--active" : "modal"}
+      className={`modal ${visible && "modal--active"}`}
       onClick={() => setVisible(false)}>
       <div
-        className={visible ? "modal__content modal--active" : "modal__content "}
+        className={`modal__content  ${visible && "modal--active"}`}
         onClick={(e) => e.stopPropagation()}>
         {children}
       </div>

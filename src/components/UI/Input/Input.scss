@@ -1,10 +1,21 @@
 @import "../../../assets/styles/MainVariables.scss";
 
-.input{
+.input-info {
+  position: relative;
+
+  .input {
     width: 100%;
     padding: 5px 15px;
-    margin-block: 5px;
+    margin-bottom: 20px;
     border: 1px solid $color;
     border-radius: $radius;
     outline: none;
+  }
+
+  &__err {
+    bottom: 5px;
+    font-size: 10px;
+    color: red;
+    position: absolute;
+  }
 }

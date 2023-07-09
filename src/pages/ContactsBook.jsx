@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import ContactForm from "../components/ContactForm";
 import Button from "../components/UI/button/Button";
-import Modal from "../components/UI/modal/MOdal";
+import Modal from "../components/UI/modal/Modal";
 
 import "../assets/styles/pages/ContactsBook.scss";
 import ContactList from "../components/ContactList";
@@ -10,8 +10,6 @@ import ContactList from "../components/ContactList";
 export default function ContactsBook() {
   const [visible, setVisible] = useState(false);
   const [contacts, setContacts] = useState([]);
-
-  console.log(contacts);
 
   function closeModal() {
     setVisible(false);
@@ -40,14 +38,14 @@ export default function ContactsBook() {
     <div className="contacts-book">
       <Button onClick={() => setVisible(true)}>Add Contact</Button>
 
-      <ContactList contacts={contacts} />
+      <ContactList
+        contacts={contacts}
+        removeContact={removeContact}
+        editContact={editContact}
+      />
 
       <Modal visible={visible} setVisible={setVisible}>
-        <ContactForm
-          closeModal={closeModal}
-          addContact={addContact}
-          editContact={editContact}
-        />
+        <ContactForm closeModal={closeModal} addContact={addContact} />
       </Modal>
     </div>
   );

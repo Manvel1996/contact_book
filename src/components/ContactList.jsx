@@ -1,12 +1,22 @@
 import React from "react";
+import ContactItem from "./ContactItem";
 
-export default function ContactList({ contacts }) {
+import "../assets/styles/components/ContactList.scss";
+
+export default function ContactList({ contacts, removeContact, editContact }) {
   return (
     <div className="contact-list">
       {contacts.length === 0 ? (
-        <h2 className="contacts-book__title">Contacts list</h2>
+        <h2 className="contacts-book__title">Contacts list is empty</h2>
       ) : (
-        contacts.map((contact) => <div key={contact.id}>{contact.userName}</div>)
+        contacts.map((contact) => (
+          <ContactItem
+            key={contact?.id}
+            contact={contact}
+            removeContact={removeContact}
+            editContact={editContact}
+          />
+        ))
       )}
     </div>
   );
