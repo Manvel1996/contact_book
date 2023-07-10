@@ -18,9 +18,8 @@ export function emailControl(e, setEmail, setEmailErr) {
   setEmail(e.target.value.trim());
 
   if (
-    e.target.value.trim().length === 0 ||
-    (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(e.target.value.trim()) &&
-      e.target.value.trim().length < 30)
+    /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(e.target.value.trim()) &&
+    e.target.value.trim().length < 30
   ) {
     setEmailErr(false);
   } else setEmailErr(true);

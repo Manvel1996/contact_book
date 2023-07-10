@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 import uuid from "react-uuid";
+import { useDispatch } from "react-redux";
 
+import {
+  addContact,
+  editContact,
+} from "../redux/features/contacts/ContactsSlice";
 import Input from "./UI/input/Input";
 import Select from "./UI/select/Select";
 import {
@@ -14,13 +19,9 @@ import {
 
 import "../assets/styles/components/ContactForm.scss";
 
-export default function ContactForm({
-  closeModal,
-  addContact,
-  editContact,
-  editedContact,
-  visible,
-}) {
+export default function ContactForm({ closeModal, editedContact, visible }) {
+  const dispatch = useDispatch();
+
   const [userName, setUserName] = useState("");
   const [userNameErr, setUserNameErr] = useState(false);
 
@@ -37,6 +38,7 @@ export default function ContactForm({
   const [photoUrlErr, setPhotoUrlErr] = useState(false);
 
   const [status, setStatus] = useState("");
+  const [favorite, setFavorite] = useState("All");
 
   useEffect(() => {
     if (editedContact) {
@@ -62,7 +64,7 @@ export default function ContactForm({
       }
 
       if (
-        editedContact.email.length > 0 &&
+        editedContact?.email?.length > 0 &&
         /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) &&
         email.length < 30
       ) {
@@ -114,8 +116,8 @@ export default function ContactForm({
     }
 
     if (
-      (email.length > 0 &&
-        !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) ||
+      email.length === 0 ||
+      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
       email.length >= 30
     ) {
       setEmailErr(true);
@@ -143,8 +145,8 @@ export default function ContactForm({
       userName.length > 20 ||
       surname.length < 2 ||
       surname.length > 20 ||
-      (email.length > 0 &&
-        !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) ||
+      email.length === 0 ||
+      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
       email.length >= 30 ||
       !/^[\+]?[(]?[0-9]{3}[)]?[\s]?[0-9]{2}[\s]?[0-9]{3}[\s]?[0-9]{3}$/.test(
         phone
@@ -167,9 +169,9 @@ export default function ContactForm({
     };
 
     if (editedContact) {
-      editContact(newContact);
+      dispatch(editContact(newContact));
     } else {
-      addContact(newContact);
+      dispatch(addContact(newContact));
       clearForm();
     }
 
@@ -233,23 +235,36 @@ export default function ContactForm({
         errText="The link should look like this https://photoUrl"
       />
 
-      <Select
-        className="select"
-        value={status}
-        onChangeSelect={(val) => setStatus(val)}
-        defaultValue="Status"
-        options={[
-          { value: true, name: "Online" },
-          { value: false, name: "Offline" },
-        ]}
-      />
+      <div className="contact-form-selects">
+        <Select
+          className="select"
+          value={status}
+          onChangeSelect={(val) => setStatus(val)}
+          defaultValue="Status"
+          options={[
+            { value: true, name: "Online" },
+            { value: false, name: "Offline" },
+          ]}
+        />
 
-      <div className="contact-form-btns">
-        <button type="reset" className="btn--red" onClick={clearForm}>
+        <Select
+          className="select select--favorite"
+          value={favorite}
+          onChangeSelect={(val) => setFavorite(val)}
+          defaultValue="All"
+          options={[
+            { value: "All", name: "All" },
+            { value: "Favorite", name: "Favorite" },
+          ]}
+        />
+      </div>
+
+      <div className="contact-form-buttons">
+        <button type="reset" className="button--red" onClick={clearForm}>
           Reset
         </button>
 
-        <button type="submit" className="btn--green" onClick={submit}>
+        <button type="submit" className="button--green" onClick={submit}>
           {editedContact ? "Save" : "Add"}
         </button>
       </div>
