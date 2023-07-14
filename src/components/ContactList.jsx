@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import ContactItem from "./ContactItem";
-import { contacts } from "../redux/features/contacts/ContactsSlice";
+import { contacts } from "../redux/features/contacts/ContactsActions";
 
 import "../assets/styles/components/ContactList.scss";
 

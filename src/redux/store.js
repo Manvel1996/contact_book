@@ -1,13 +1,13 @@
 import { createStore, combineReducers } from "redux";
 
-import { contactsReducer, initialContacts } from "./features/contacts/ContactsSlice";
-
-
-
+import {
+  ContactsReducer,
+  initialContacts,
+} from "./features/contacts/ContactsReducer";
 
 const store = createStore(
   combineReducers({
-    contacts: contactsReducer,
+    contacts: ContactsReducer,
   }),
   {
     contacts: initialContacts,

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import ContactForm from "./ContactForm";
 import ModalConfirm from "./UI/confirmModal/ModalConfirm";
 import Modal from "./UI/modal/Modal";
-import { removeContact } from "../redux/features/contacts/ContactsSlice";
+import { removeContact } from "../redux/features/contacts/ContactsActions";
 
 import "../assets/styles//components/ContactItem.scss";
 

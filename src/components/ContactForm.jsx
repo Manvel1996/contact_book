@@ -5,8 +5,9 @@ import { useDispatch } from "react-redux";
 
 import {
   addContact,
+  addContactFavorite,
   editContact,
-} from "../redux/features/contacts/ContactsSlice";
+} from "../redux/features/contacts/ContactsActions";
 import Input from "./UI/input/Input";
 import Select from "./UI/select/Select";
 import {
@@ -102,6 +103,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
     setPhotoUrl("");
     setPhotoUrlErr(false);
     setStatus("");
+    setFavorite("All");
   }
 
   function submit(e) {
@@ -166,12 +168,17 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       phone,
       photoUrl,
       status,
+      favorite,
     };
 
     if (editedContact) {
       dispatch(editContact(newContact));
     } else {
-      dispatch(addContact(newContact));
+      if (newContact.favorite === "Favorite") {
+        dispatch(addContactFavorite(newContact));
+      } else {
+        dispatch(addContact(newContact));
+      }
       clearForm();
     }
 
