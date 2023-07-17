@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 
 import ContactForm from "./ContactForm";
 import ModalConfirm from "./UI/confirmModal/ModalConfirm";
 import Modal from "./UI/modal/Modal";
 
+import { removeContact } from "../redux/features/contacts/ContactSlice";
+
+import { CONTACT_STATUS } from "../constants/contactConstants";
+
 import "../assets/styles//components/ContactItem.scss";
 
-export default function ContactItem({ contact, removeContact, editContact }) {
+export default function ContactItem({ contact }) {
   const [visible, setVisible] = useState(false);
   const [visibleConfirm, setVisibleConfirm] = useState(false);
+
+  const dispatch = useDispatch();
 
   const id = contact?.id;
 
@@ -19,7 +26,7 @@ export default function ContactItem({ contact, removeContact, editContact }) {
   }
 
   function confirmFunc() {
-    removeContact(id);
+    dispatch(removeContact(id));
   }
 
   return (
@@ -36,7 +43,7 @@ export default function ContactItem({ contact, removeContact, editContact }) {
 
         <div
           className={`contact-info__status ${
-            contact.status === "true"
+            contact.status === CONTACT_STATUS.ONLINE
               ? "contact-info__status--green"
               : "contact-info__status--red"
           }`}
@@ -48,13 +55,13 @@ export default function ContactItem({ contact, removeContact, editContact }) {
       {contact.email && <p className="contact-item__email">{contact.email}</p>}
       <p className="contact-item__phone">{contact.phone}</p>
 
-      <div className="contact-btns">
+      <div className="contact-buttons">
         <AiFillEdit
-          className="contact-btns__btn"
+          className="contact-buttons__button"
           onClick={() => setVisible(true)}
         />
         <AiFillDelete
-          className="contact-btns__btn"
+          className="contact-buttons__button"
           onClick={() => setVisibleConfirm(true)}
         />
       </div>
@@ -67,7 +74,11 @@ export default function ContactItem({ contact, removeContact, editContact }) {
       />
 
       <Modal visible={visible} setVisible={setVisible}>
-        <ContactForm closeModal={closeModal} editContact={editContact} editedContact={contact} visible={visible}/>
+        <ContactForm
+          closeModal={closeModal}
+          editedContact={contact}
+          visible={visible}
+        />
       </Modal>
     </div>
   );

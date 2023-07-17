@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import uuid from "react-uuid";
+import { useDispatch } from "react-redux";
 
 import Input from "./UI/input/Input";
 import Select from "./UI/select/Select";
@@ -12,15 +13,18 @@ import {
   userNameControl,
 } from "../controllers/ContactForm";
 
-import "../assets/styles/components/ContactForm.scss";
-
-export default function ContactForm({
-  closeModal,
+import {
   addContact,
   editContact,
-  editedContact,
-  visible,
-}) {
+} from "../redux/features/contacts/ContactSlice";
+
+import { CONTACT_STATUS, CONTACT_TYPE } from "../constants/contactConstants";
+
+import "../assets/styles/components/ContactForm.scss";
+
+export default function ContactForm({ closeModal, editedContact, visible }) {
+  const dispatch = useDispatch();
+
   const [userName, setUserName] = useState("");
   const [userNameErr, setUserNameErr] = useState(false);
 
@@ -37,6 +41,7 @@ export default function ContactForm({
   const [photoUrlErr, setPhotoUrlErr] = useState(false);
 
   const [status, setStatus] = useState("");
+  const [type, setType] = useState(CONTACT_TYPE.ALL);
 
   useEffect(() => {
     if (editedContact) {
@@ -46,6 +51,7 @@ export default function ContactForm({
       setPhone(editedContact.phone);
       setPhotoUrl(editedContact.photoUrl);
       setStatus(editedContact.status);
+      setType(editedContact.type);
 
       if (
         editedContact?.userName?.length >= 2 &&
@@ -62,7 +68,7 @@ export default function ContactForm({
       }
 
       if (
-        editedContact.email.length > 0 &&
+        editedContact?.email?.length > 0 &&
         /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) &&
         email.length < 30
       ) {
@@ -100,6 +106,7 @@ export default function ContactForm({
     setPhotoUrl("");
     setPhotoUrlErr(false);
     setStatus("");
+    setType(CONTACT_TYPE.ALL);
   }
 
   function submit(e) {
@@ -114,8 +121,8 @@ export default function ContactForm({
     }
 
     if (
-      (email.length > 0 &&
-        !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) ||
+      email.length === 0 ||
+      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
       email.length >= 30
     ) {
       setEmailErr(true);
@@ -143,8 +150,8 @@ export default function ContactForm({
       userName.length > 20 ||
       surname.length < 2 ||
       surname.length > 20 ||
-      (email.length > 0 &&
-        !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) ||
+      email.length === 0 ||
+      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
       email.length >= 30 ||
       !/^[\+]?[(]?[0-9]{3}[)]?[\s]?[0-9]{2}[\s]?[0-9]{3}[\s]?[0-9]{3}$/.test(
         phone
@@ -164,15 +171,16 @@ export default function ContactForm({
       phone,
       photoUrl,
       status,
+      type,
     };
 
     if (editedContact) {
-      editContact(newContact);
+      dispatch(editContact(newContact));
     } else {
-      addContact(newContact);
-      clearForm();
+      dispatch(addContact(newContact));
     }
 
+    clearForm();
     closeModal();
   }
 
@@ -233,23 +241,36 @@ export default function ContactForm({
         errText="The link should look like this https://photoUrl"
       />
 
-      <Select
-        className="select"
-        value={status}
-        onChangeSelect={(val) => setStatus(val)}
-        defaultValue="Status"
-        options={[
-          { value: true, name: "Online" },
-          { value: false, name: "Offline" },
-        ]}
-      />
+      <div className="contact-form-selects">
+        <Select
+          className="select"
+          value={status}
+          onChangeSelect={(val) => setStatus(val)}
+          defaultValue="STATUS"
+          options={[
+            { value: CONTACT_STATUS.ONLINE, name: CONTACT_STATUS.ONLINE },
+            { value: CONTACT_STATUS.OFFLINE, name: CONTACT_STATUS.OFFLINE },
+          ]}
+        />
 
-      <div className="contact-form-btns">
-        <button type="reset" className="btn--red" onClick={clearForm}>
+        <Select
+          className="select"
+          value={type}
+          onChangeSelect={(val) => setType(val)}
+          defaultValue="TYPE"
+          options={[
+            { value: CONTACT_TYPE.ALL, name: CONTACT_TYPE.ALL },
+            { value: CONTACT_TYPE.FAVORITE, name: CONTACT_TYPE.FAVORITE },
+          ]}
+        />
+      </div>
+
+      <div className="contact-form-buttons">
+        <button type="reset" className="button--red" onClick={clearForm}>
           Reset
         </button>
 
-        <button type="submit" className="btn--green" onClick={submit}>
+        <button type="submit" className="button--green" onClick={submit}>
           {editedContact ? "Save" : "Add"}
         </button>
       </div>

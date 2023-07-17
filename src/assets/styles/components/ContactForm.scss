@@ -1,18 +1,24 @@
 @import "../MainVariables.scss";
 
-.contact-form-btns {
+.contact-form-selects {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.contact-form-buttons {
   display: flex;
   justify-content: flex-end;
   margin-top: 50px;
   gap: 10px;
 
-  .btn--red {
-    @include btn;
+  .button--red {
+    @include button;
     background-color: red;
   }
 
-  .btn--green {
-    @include btn;
+  .button--green {
+    @include button;
     background-color: green;
   }
 }

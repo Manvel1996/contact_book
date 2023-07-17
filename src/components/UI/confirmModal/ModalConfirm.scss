@@ -34,18 +34,18 @@
     transform: scale(1.1);
   }
 
-  &__btns {
+  &__buttons {
     display: flex;
     justify-content: space-around;
     padding-top: 20px;
 
-    .btn--red {
-      @include btn;
+    .button--red {
+      @include button;
       background-color: red;
     }
 
-    .btn--green {
-      @include btn;
+    .button--green {
+      @include button;
       background-color: green;
     }
   }
