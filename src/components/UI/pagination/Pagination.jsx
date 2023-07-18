@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./Pagination.scss";
 
@@ -6,9 +6,8 @@ export default function Pagination({
   totalItems,
   itemsPerPage,
   pageChange,
+  currentPage,
 }) {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const pageNumbers = [];
 
@@ -17,14 +16,12 @@ export default function Pagination({
   }
 
   function changePageNumber(pageNumber) {
-    setCurrentPage(pageNumber);
     pageChange(pageNumber);
   }
 
   function prevPage() {
     if (currentPage > 1) {
       const newPage = currentPage - 1;
-      setCurrentPage(newPage);
       pageChange(newPage);
     }
   }
@@ -32,7 +29,6 @@ export default function Pagination({
   function nextPage() {
     if (currentPage < totalPages) {
       const newPage = currentPage + 1;
-      setCurrentPage(newPage);
       pageChange(newPage);
     }
   }

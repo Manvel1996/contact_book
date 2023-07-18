@@ -7,7 +7,7 @@ import "../assets/styles/components/ContactList.scss";
 export default function ContactList({ contactsList }) {
   return (
     <div className="contact-list">
-      {contactsList.length === 0 ? (
+      {contactsList?.length === 0 ? (
         <h2 className="contacts-book__title">Contacts list is empty</h2>
       ) : (
         contactsList.map((contact) => (

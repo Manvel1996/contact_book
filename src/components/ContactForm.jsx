@@ -70,7 +70,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       if (
         editedContact?.email?.length > 0 &&
         /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) &&
-        email.length < 30
+        email?.length < 30
       ) {
         setEmailErr(false);
       }
@@ -84,7 +84,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       }
 
       if (
-        photoUrl.length > 0 &&
+        photoUrl?.length > 0 &&
         /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
           photoUrl
         )
@@ -112,18 +112,18 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
   function submit(e) {
     e.preventDefault();
 
-    if (userName.length < 2 || userName.length > 20) {
+    if (userName?.length < 2 || userName?.length > 20) {
       setUserNameErr(true);
     }
 
-    if (surname.length < 2 || surname.length > 20) {
+    if (surname?.length < 2 || surname?.length > 20) {
       setSurnameErr(true);
     }
 
     if (
-      email.length === 0 ||
+      email?.length === 0 ||
       !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
-      email.length >= 30
+      email?.length >= 30
     ) {
       setEmailErr(true);
     }
@@ -137,7 +137,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
     }
 
     if (
-      photoUrl.length > 0 &&
+      photoUrl?.length > 0 &&
       !/^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
         photoUrl
       )
@@ -146,17 +146,17 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
     }
 
     if (
-      userName.length < 2 ||
-      userName.length > 20 ||
-      surname.length < 2 ||
-      surname.length > 20 ||
-      email.length === 0 ||
+      userName?.length < 2 ||
+      userName?.length > 20 ||
+      surname?.length < 2 ||
+      surname?.length > 20 ||
+      email?.length === 0 ||
       !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
-      email.length >= 30 ||
+      email?.length >= 30 ||
       !/^[\+]?[(]?[0-9]{3}[)]?[\s]?[0-9]{2}[\s]?[0-9]{3}[\s]?[0-9]{3}$/.test(
         phone
       ) ||
-      (photoUrl.length > 0 &&
+      (photoUrl?.length > 0 &&
         !/^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
           photoUrl
         ))

@@ -1,7 +1,7 @@
 export function userNameControl(e, setUserName, setUserNameErr) {
   setUserName(e.target.value.trim());
 
-  if (e.target.value.trim().length >= 2 && e.target.value.trim().length <= 20) {
+  if (e.target.value.trim()?.length >= 2 && e.target.value.trim()?.length <= 20) {
     setUserNameErr(false);
   } else setUserNameErr(true);
 }
@@ -9,7 +9,7 @@ export function userNameControl(e, setUserName, setUserNameErr) {
 export function surnameControl(e, setSurname, setSurnameErr) {
   setSurname(e.target.value.trim());
 
-  if (e.target.value.trim().length >= 2 && e.target.value.trim().length <= 20) {
+  if (e.target.value.trim()?.length >= 2 && e.target.value.trim()?.length <= 20) {
     setSurnameErr(false);
   } else setSurnameErr(true);
 }
@@ -19,7 +19,7 @@ export function emailControl(e, setEmail, setEmailErr) {
 
   if (
     /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(e.target.value.trim()) &&
-    e.target.value.trim().length < 30
+    e.target.value.trim()?.length < 30
   ) {
     setEmailErr(false);
   } else setEmailErr(true);
@@ -41,7 +41,7 @@ export function photoUrlControl(e, setPhotoUrl, setPhotoUrlErr) {
   setPhotoUrl(e.target.value.trim());
 
   if (
-    e.target.value.trim().length === 0 ||
+    e.target.value.trim()?.length === 0 ||
     /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
       e.target.value.trim()
     )

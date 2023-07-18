@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { CONTACT_PAGE_GET_COUNT, CONTACT_TYPE } from "../../../constants/contactConstants";
+import {
+  CONTACT_PAGE_GET_COUNT,
+  CONTACT_TYPE,
+} from "../../../constants/contactConstants";
 
 const testUsers = [
   {
@@ -11,8 +14,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "ONLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da1",
@@ -22,8 +25,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "ONLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da2",
@@ -33,8 +36,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "ONLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3",
@@ -44,8 +47,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "ONLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da4",
@@ -55,8 +58,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "ONLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3as",
@@ -66,8 +69,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "ONLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da36",
@@ -77,8 +80,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "ONLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da37452",
@@ -88,8 +91,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da388",
@@ -99,8 +102,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "FAVORITE",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3584",
@@ -110,8 +113,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da310",
@@ -121,8 +124,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da311",
@@ -132,8 +135,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31213",
@@ -143,8 +146,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3125641",
@@ -154,8 +157,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31215",
@@ -165,8 +168,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31216",
@@ -176,8 +179,8 @@ const testUsers = [
     phone: "+(374)30322222",
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
-    status: "true",
-    favorite: "Favorite",
+    status: "OFFLINE",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da318",
@@ -188,7 +191,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da318451",
@@ -199,7 +202,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3166662",
@@ -210,7 +213,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31220",
@@ -221,7 +224,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31221goi",
@@ -232,7 +235,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31222",
@@ -243,7 +246,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da312236",
@@ -254,7 +257,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31224",
@@ -265,7 +268,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
 
   {
@@ -277,7 +280,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31226",
@@ -288,7 +291,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31227",
@@ -299,7 +302,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31228",
@@ -310,7 +313,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31229",
@@ -321,7 +324,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
 
   {
@@ -333,7 +336,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31231",
@@ -344,7 +347,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31232",
@@ -355,7 +358,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31233",
@@ -366,7 +369,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31234",
@@ -377,7 +380,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31235",
@@ -388,7 +391,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3123265",
@@ -399,7 +402,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31237",
@@ -410,7 +413,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3123538",
@@ -421,7 +424,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da31239",
@@ -432,7 +435,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3123540",
@@ -443,7 +446,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3123541",
@@ -454,7 +457,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
   {
     id: "37c20544-2925-4b2a-41e5-c2fea77a78da3123542",
@@ -465,7 +468,7 @@ const testUsers = [
     photoUrl:
       "https://www.stryx.com/cdn/shop/articles/man-looking-attractive.jpg?v=1666662774",
     status: "true",
-    favorite: "Favorite",
+    type: "ALL",
   },
 ];
 
@@ -474,26 +477,35 @@ const initialState = {
   currentPage: 1,
   totalPage: CONTACT_PAGE_GET_COUNT,
   type: CONTACT_TYPE.ALL,
+  search: "",
 };
 
-export function getContacts(state) {
-  if (state.contacts.type === CONTACT_TYPE.FAVORITE) {
-    return state.contacts.contacts.filter(
-      (el) => el.favorite === CONTACT_TYPE.FAVORITE
-    );
-  } else return state.contacts.contacts;
-}
+
+
+
 
 export const contactSlice = createSlice({
   name: "contact",
   initialState,
   reducers: {
-    addContact: (state, action) => {
-      state.contacts.push(action.payload);
+    changeContactsType: (state, action) => {
+      state.type = action.payload;
+      state.currentPage = 1
     },
+
+    changeContactsSearch: (state, action) => {
+      state.search = action.payload;
+      state.currentPage = 1
+    },
+
+    addContact: (state, action) => {
+      state.contacts.unshift(action.payload);
+    },
+
     removeContact: (state, action) => {
       state.contacts = state.contacts.filter((el) => el.id !== action.payload);
     },
+
     editContact: (state, action) => {
       state.contacts = state.contacts.map((el) => {
         if (el.id === action.payload.id) {
@@ -502,13 +514,20 @@ export const contactSlice = createSlice({
         return el;
       });
     },
+
     contactPageChange: (state, action) => {
       state.currentPage = action.payload;
     },
   },
 });
 
-export const { addContact, removeContact, editContact, contactPageChange } =
-  contactSlice.actions;
+export const {
+  changeContactsType,
+  changeContactsSearch,
+  addContact,
+  removeContact,
+  editContact,
+  contactPageChange,
+} = contactSlice.actions;
 
 export default contactSlice.reducer;
