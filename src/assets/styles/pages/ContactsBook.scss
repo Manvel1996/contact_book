@@ -1,13 +1,13 @@
-.contacts-book{
-    margin: 0 auto;
-    max-width: 1200px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.contacts-book {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    &__title{
-        margin-top: 50px;
-        color: white;
-    }
+  &__title {
+    margin-top: 50px;
+    color: white;
+  }
 }

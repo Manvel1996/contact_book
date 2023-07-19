@@ -480,22 +480,18 @@ const initialState = {
   search: "",
 };
 
-
-
-
-
 export const contactSlice = createSlice({
   name: "contact",
   initialState,
   reducers: {
     changeContactsType: (state, action) => {
       state.type = action.payload;
-      state.currentPage = 1
+      state.currentPage = 1;
     },
 
     changeContactsSearch: (state, action) => {
       state.search = action.payload;
-      state.currentPage = 1
+      state.currentPage = 1;
     },
 
     addContact: (state, action) => {

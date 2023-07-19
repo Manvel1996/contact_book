@@ -5,8 +5,7 @@ import ContactsBook from "./pages/ContactsBook";
 import "./Main.scss";
 
 function App() {
-    return <ContactsBook />;
+  return <ContactsBook />;
 }
 
 export default App;
-

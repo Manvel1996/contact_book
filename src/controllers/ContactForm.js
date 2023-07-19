@@ -1,7 +1,10 @@
 export function userNameControl(e, setUserName, setUserNameErr) {
   setUserName(e.target.value.trim());
 
-  if (e.target.value.trim()?.length >= 2 && e.target.value.trim()?.length <= 20) {
+  if (
+    e.target.value.trim()?.length >= 2 &&
+    e.target.value.trim()?.length <= 20
+  ) {
     setUserNameErr(false);
   } else setUserNameErr(true);
 }
@@ -9,7 +12,10 @@ export function userNameControl(e, setUserName, setUserNameErr) {
 export function surnameControl(e, setSurname, setSurnameErr) {
   setSurname(e.target.value.trim());
 
-  if (e.target.value.trim()?.length >= 2 && e.target.value.trim()?.length <= 20) {
+  if (
+    e.target.value.trim()?.length >= 2 &&
+    e.target.value.trim()?.length <= 20
+  ) {
     setSurnameErr(false);
   } else setSurnameErr(true);
 }
