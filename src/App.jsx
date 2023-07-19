@@ -1,11 +1,16 @@
 import React from "react";
 
-import ContactsBook from "./pages/ContactsBook";
+import Layout from "./components/Layout";
 
-import "./Main.scss";
+import "./assets/styles/Main.scss";
+import AppRouter from "./components/AppRouter";
 
 function App() {
-  return <ContactsBook />;
+  return (
+    <Layout>
+      <AppRouter />
+    </Layout>
+  );
 }
 
 export default App;

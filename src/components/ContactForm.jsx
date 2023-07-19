@@ -18,7 +18,7 @@ import {
   editContact,
 } from "../redux/features/contacts/ContactSlice";
 
-import { CONTACT_STATUS, CONTACT_TYPE } from "../constants/contactConstants";
+import { CONTACT_STATUS, CONTACT_TYPE, PHONE_START } from "../constants/contactConstants";
 
 import "../assets/styles/components/ContactForm.scss";
 
@@ -34,7 +34,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
   const [email, setEmail] = useState("");
   const [emailErr, setEmailErr] = useState(false);
 
-  const [phone, setPhone] = useState("+(374)");
+  const [phone, setPhone] = useState(PHONE_START);
   const [phoneErr, setPhoneErr] = useState(false);
 
   const [photoUrl, setPhotoUrl] = useState("");
@@ -101,7 +101,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
     setSurnameErr(false);
     setEmail("");
     setEmailErr(false);
-    setPhone("+(374)");
+    setPhone(PHONE_START);
     setPhoneErr(false);
     setPhotoUrl("");
     setPhotoUrlErr(false);
@@ -209,7 +209,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       />
 
       <Input
-        label="Email"
+        label="Email*"
         id="email-id"
         type="email"
         placeholder="Email"
@@ -227,7 +227,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
         onChange={(e) => phoneControl(e, setPhone, setPhoneErr)}
         value={phone}
         err={phoneErr}
-        errText="Write this way +(374) 44 444 444"
+        errText={`Write this way ${PHONE_START} 44 444 444`}
       />
 
       <Input
@@ -243,7 +243,6 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
 
       <div className="contact-form-selects">
         <Select
-          className="select"
           value={status}
           onChangeSelect={(val) => setStatus(val)}
           defaultValue="STATUS"
@@ -254,7 +253,6 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
         />
 
         <Select
-          className="select"
           value={type}
           onChangeSelect={(val) => setType(val)}
           defaultValue="TYPE"

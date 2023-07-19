@@ -11,14 +11,12 @@
   justify-content: flex-end;
   margin-top: 50px;
   gap: 10px;
+}
 
-  .button--red {
-    @include button;
-    background-color: red;
-  }
-
-  .button--green {
-    @include button;
-    background-color: green;
+@media screen and (max-width: 600px) {
+  .contact-form-selects {
+    flex-wrap: wrap;
+    gap: 80px;
+    margin-bottom: 80px;
   }
 }

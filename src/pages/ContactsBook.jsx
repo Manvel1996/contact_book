@@ -48,12 +48,12 @@ export default function ContactsBook() {
 
       <ContactList contactsList={contactsListSlice} />
 
-      <Pagination
+      {contactsList?.length !== 0 && <Pagination
         totalItems={contactsList?.length}
         itemsPerPage={CONTACT_PAGE_GET_COUNT}
         pageChange={pageChange}
         currentPage={currentPage}
-      />
+      />}
 
       <Modal visible={visible} setVisible={setVisible}>
         <ContactForm closeModal={closeModal} />

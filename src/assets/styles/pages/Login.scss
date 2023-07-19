@@ -1,0 +1,15 @@
+@import "../MainVariables.scss";
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-form {
+    padding: 40px;
+    border-radius: $radius;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+  }
+}

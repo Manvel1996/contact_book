@@ -1,0 +1,40 @@
+@import "../../../assets/styles/MainVariables.scss";
+
+.navbar {
+  height: 50px;
+  background-color: $color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 45px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px 0 black;
+
+  &__logo{
+    height: 35px;
+    cursor: pointer;
+  }
+
+  &-list{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  &-item{
+    list-style: none;
+  }
+  
+  &-link{
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+    transition: all 0.5s;
+    &:hover{
+      background-color: white;
+      border-radius: $radius;
+      color: $color;
+    }
+  }
+}
+

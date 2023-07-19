@@ -4,7 +4,8 @@
   outline: none;
   border: 1px solid $color;
   border-radius: $radius;
-  width: 200px;
+  width: 100%;
+  min-width: 200px;
   height: 30px;
   cursor: pointer;
   padding-inline: 5px;
