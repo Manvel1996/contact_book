@@ -1,23 +1,12 @@
-export function userNameControl(e, setUserName, setUserNameErr) {
-  setUserName(e.target.value.trim());
+export function textControl(e, setText, setTextErr) {
+  setText(e.target.value.trim());
 
   if (
     e.target.value.trim()?.length >= 2 &&
     e.target.value.trim()?.length <= 20
   ) {
-    setUserNameErr(false);
-  } else setUserNameErr(true);
-}
-
-export function surnameControl(e, setSurname, setSurnameErr) {
-  setSurname(e.target.value.trim());
-
-  if (
-    e.target.value.trim()?.length >= 2 &&
-    e.target.value.trim()?.length <= 20
-  ) {
-    setSurnameErr(false);
-  } else setSurnameErr(true);
+    setTextErr(false);
+  } else setTextErr(true);
 }
 
 export function emailControl(e, setEmail, setEmailErr) {
@@ -54,4 +43,12 @@ export function photoUrlControl(e, setPhotoUrl, setPhotoUrlErr) {
   ) {
     setPhotoUrlErr(false);
   } else setPhotoUrlErr(true);
+}
+
+export function passwordControl(e, setPassword, setPasswordErr) {
+  setPassword(e.target.value.trim());
+
+  if (e.target.value.trim()?.length >= 5) {
+    setPasswordErr(false);
+  } else setPasswordErr(true);
 }

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+
+import { registerUser } from "../redux/features/auth/AuthSlice";
+
 // import { checkIsAuth, registerUser } from "../redux/feauters/auth/AuthSlice";
 // import { toast } from "react-toastify";
 
@@ -14,14 +17,17 @@ import { PHONE_START } from "../constants/contactConstants";
 
 import {
   emailControl,
+  passwordControl,
   phoneControl,
-  surnameControl,
-  userNameControl,
-} from "../controllers/ContactForm";
+  textControl,
+} from "../controllers/FormControl";
 
 import "../assets/styles/pages/Register.scss";
 
 export default function Register() {
+  const [oldImg, setOldImg] = useState("");
+  const [newImg, setNewImg] = useState("");
+
   const [userName, setUserName] = useState("");
   const [userNameErr, setUserNameErr] = useState(false);
 
@@ -35,10 +41,10 @@ export default function Register() {
   const [phoneErr, setPhoneErr] = useState(false);
 
   const [password, setPassword] = useState("");
-  const [passwordErr, setPasswordErr] = useState("");
+  const [passwordErr, setPasswordErr] = useState(false);
 
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [repeatPasswordErr, setRepeatPasswordErr] = useState("");
+  const [repeatPasswordErr, setRepeatPasswordErr] = useState(false);
 
   const [gender, setGender] = useState("");
 
@@ -58,15 +64,68 @@ export default function Register() {
   //     }
   //   }, [status, navigate, isAuth]);
 
-  const submit = () => {
+  function submit() {
+    if (userName?.length < 2 || userName?.length > 20) {
+      setUserNameErr(true);
+    }
+
+    if (surname?.length < 2 || surname?.length > 20) {
+      setSurnameErr(true);
+    }
+
+    if (
+      email?.length === 0 ||
+      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
+      email?.length >= 30
+    ) {
+      setEmailErr(true);
+    }
+
+    if (
+      !/^[\+]?[(]?[0-9]{3}[)]?[\s]?[0-9]{2}[\s]?[0-9]{3}[\s]?[0-9]{3}$/.test(
+        phone
+      )
+    ) {
+      setPhoneErr(true);
+    }
+
+    if (password?.length < 5) {
+      setPasswordErr(true);
+    }
+
+    if (password !== repeatPassword) {
+      setRepeatPasswordErr(true);
+    }
+
+    if (
+      userName?.length < 2 ||
+      userName?.length > 20 ||
+      surname?.length < 2 ||
+      surname?.length > 20 ||
+      email?.length === 0 ||
+      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) ||
+      email?.length >= 30 ||
+      !/^[\+]?[(]?[0-9]{3}[)]?[\s]?[0-9]{2}[\s]?[0-9]{3}[\s]?[0-9]{3}$/.test(
+        phone
+      ) ||
+      password?.length < 5 ||
+      password !== repeatPassword
+    ) {
+      return;
+    }
+
     try {
-      dispatch(registerUser({ userName, password }));
+      dispatch(
+        registerUser({ userName, surname, email, phone, password, gender })
+      );
+      clearForm();
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   function clearForm() {
+    setNewImg("");
     setUserName("");
     setUserNameErr(false);
     setSurname("");
@@ -80,7 +139,6 @@ export default function Register() {
     setRepeatPassword("");
     setRepeatPasswordErr(false);
     setGender("");
-    setType(CONTACT_TYPE.ALL);
   }
 
   return (
@@ -88,12 +146,38 @@ export default function Register() {
       <form onSubmit={(e) => e.preventDefault()} className="register-form">
         <h1 className="auth-title">Register</h1>
 
+        <label className="upload-img">
+          Upload image:
+          <input
+            type="file"
+            className="hidden"
+            onChange={(e) => {
+              setNewImg(e.target.files[0]);
+              setOldImg("");
+            }}
+          />
+        </label>
+
+        <div className="register-form-img">
+          {/* {oldImg && (
+            <img className="img--300" src={`http://localhost:5000/${oldImg}`} alt={oldImg.name} />
+          )} */}
+
+          {newImg && (
+            <img
+              className="img--300"
+              src={URL.createObjectURL(newImg)}
+              alt={newImg.name}
+            />
+          )}
+        </div>
+
         <Input
           label="Name*"
           id="user-name-id"
           type="text"
           placeholder="Name"
-          onChange={(e) => userNameControl(e, setUserName, setUserNameErr)}
+          onChange={(e) => textControl(e, setUserName, setUserNameErr)}
           value={userName}
           err={userNameErr}
           errText="The Name must contain at least 2 characters and no more than 20"
@@ -104,7 +188,7 @@ export default function Register() {
           id="surname-id"
           type="text"
           placeholder="Surname"
-          onChange={(e) => surnameControl(e, setSurname, setSurnameErr)}
+          onChange={(e) => textControl(e, setSurname, setSurnameErr)}
           value={surname}
           err={surnameErr}
           errText="The Surname must contain at least 2 characters and no more than 20"
@@ -137,10 +221,10 @@ export default function Register() {
           id="password-id"
           type="password"
           placeholder="Password"
-          onChange={(e) => phoneControl(e, setPhone, setPhoneErr)}
+          onChange={(e) => passwordControl(e, setPassword, setPasswordErr)}
           value={password}
           err={passwordErr}
-          errText="Wrong password"
+          errText="The password must contain at least 5 characters"
         />
 
         <Input
@@ -148,10 +232,12 @@ export default function Register() {
           id="repeat-password-id"
           type="password"
           placeholder="Repeat password"
-          onChange={(e) => phoneControl(e, setPhone, setPhoneErr)}
+          onChange={(e) =>
+            passwordControl(e, setRepeatPassword, setRepeatPasswordErr)
+          }
           value={repeatPassword}
           err={repeatPasswordErr}
-          errText="Wrong password"
+          errText="Password mismatch"
         />
 
         <Select
@@ -159,9 +245,9 @@ export default function Register() {
           onChangeSelect={(val) => setGender(val)}
           defaultValue="Gender"
           options={[
+            { value: AUTH_GENDER.OTHER, name: AUTH_GENDER.OTHER },
             { value: AUTH_GENDER.MALE, name: AUTH_GENDER.MALE },
             { value: AUTH_GENDER.FEMALE, name: AUTH_GENDER.FEMALE },
-            { value: AUTH_GENDER.OTHER, name: AUTH_GENDER.OTHER },
           ]}
         />
 

@@ -9,9 +9,8 @@ import {
   emailControl,
   phoneControl,
   photoUrlControl,
-  surnameControl,
-  userNameControl,
-} from "../controllers/ContactForm";
+  textControl,
+} from "../controllers/FormControl";
 
 import {
   addContact,
@@ -191,7 +190,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
         id="user-name-id"
         type="text"
         placeholder="Name"
-        onChange={(e) => userNameControl(e, setUserName, setUserNameErr)}
+        onChange={(e) => textControl(e, setUserName, setUserNameErr)}
         value={userName}
         err={userNameErr}
         errText="The Name must contain at least 2 characters and no more than 20"
@@ -202,7 +201,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
         id="surname-id"
         type="text"
         placeholder="Surname"
-        onChange={(e) => surnameControl(e, setSurname, setSurnameErr)}
+        onChange={(e) => textControl(e, setSurname, setSurnameErr)}
         value={surname}
         err={surnameErr}
         errText="The Surname must contain at least 2 characters and no more than 20"
