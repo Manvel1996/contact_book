@@ -1,12 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://crudcrud.com/api/77956f4d4beb400cb367fa7b8ec23e29",
-});
-
-instance.interceptors.request.use((config) => {
-  config.headers.Authorization = localStorage.getItem("token");
-  return config;
+  baseURL: "https://crudcrud.com/api/247a45107d4a4f9fa5e87c918a92c133",
 });
 
 export default instance;

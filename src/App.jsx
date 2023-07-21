@@ -1,14 +1,18 @@
 import React from "react";
 
-import Layout from "./components/Layout";
+import { ToastContainer } from "react-toastify";
 
-import "./assets/styles/Main.scss";
+import Layout from "./components/Layout";
 import AppRouter from "./components/AppRouter";
+
+import "react-toastify/dist/ReactToastify.css";
+import "./assets/styles/Main.scss";
 
 function App() {
   return (
     <Layout>
       <AppRouter />
+      <ToastContainer position="bottom-right" />
     </Layout>
   );
 }

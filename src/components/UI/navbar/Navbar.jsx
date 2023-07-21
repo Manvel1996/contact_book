@@ -2,23 +2,23 @@ import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-// import { checkIsAuth, logOut } from "../redux/features/auth/AuthSlice";
-// import { toast } from "react-toastify";
+import { checkIsAuth } from "../../../redux/features/auth/AuthActions";
+import { logOut } from "../../..//redux/features/auth/AuthSlice";
 
-import "./Navbar.scss";
 import { ROUTE } from "../../../constants/routConstants";
 
+import "./Navbar.scss";
+
 export default function Navbar() {
-  //   const isAuth = useSelector(checkIsAuth);
+  const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
 
-  const isAuth = true;
-
-  function logOutHandler() {
+  function goOut() {
     dispatch(logOut());
     localStorage.removeItem("token");
-    // toast("Уou are logged out")
+    toast("Уou are logged out");
   }
   return (
     <div className="navbar">
@@ -55,7 +55,7 @@ export default function Navbar() {
       )}
       <div className="">
         {isAuth ? (
-          <Link to={ROUTE.LOGIN} onClick={logOutHandler} className="navbar-link">
+          <Link to={ROUTE.LOGIN} onClick={goOut} className="navbar-link">
             Logout
           </Link>
         ) : (
