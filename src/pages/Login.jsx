@@ -34,12 +34,12 @@ export default function Login() {
 
   useEffect(() => {
     if (status) {
-      toast(status);
+      toast(status, { toastId: 1 });
     }
     if (isAuth) {
       navigate(ROUTE.HOME);
     }
-  }, [status, navigate, isAuth]);
+  }, [isAuth]);
 
   function submit(e) {
     e.preventDefault();
@@ -68,10 +68,10 @@ export default function Login() {
             <h1 className="auth-title">Login</h1>
 
             <Input
-              label="Name*"
+              label="Phone or Email*"
               id="user-name-id"
               type="text"
-              placeholder="Name"
+              placeholder="Phone or Email"
               onChange={(e) => {
                 setMailOrPhone(e.target.value);
                 setPasswordErr(false);

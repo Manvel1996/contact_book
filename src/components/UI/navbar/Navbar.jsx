@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, Navigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import ModalConfirm from "../confirmModal/ModalConfirm";
 
 import { checkIsAuth } from "../../../redux/features/auth/AuthActions";
 import { logOut } from "../../..//redux/features/auth/AuthSlice";
 
 import { ROUTE } from "../../../constants/routConstants";
+import { AUTH_TOKEN } from "../../../constants/authConstants";
 
 import "./Navbar.scss";
 
 export default function Navbar() {
+  const [visibleConfirm, setVisibleConfirm] = useState(false);
+
   const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  function goOut() {
+  function confirmFunc() {
     dispatch(logOut());
-    localStorage.removeItem("token");
+    localStorage.removeItem(AUTH_TOKEN);
     toast("Уou are logged out");
+    navigate(ROUTE.LOGIN)
   }
+
   return (
     <div className="navbar">
-      <a className="navbar-link" href="https://aparg.com/">
+      <a className="navbar-link" href="/">
         <img
           className="navbar__logo"
           src="https://aparg.com/wp-content/uploads/2023/07/logo-black.png"
@@ -55,7 +63,7 @@ export default function Navbar() {
       )}
       <div className="">
         {isAuth ? (
-          <Link to={ROUTE.LOGIN} onClick={goOut} className="navbar-link">
+          <Link onClick={() => setVisibleConfirm(true)} className="navbar-link">
             Logout
           </Link>
         ) : (
@@ -64,6 +72,13 @@ export default function Navbar() {
           </Link>
         )}
       </div>
+
+      <ModalConfirm
+        title="Are you sure you want to log out?"
+        visibleConfirm={visibleConfirm}
+        setVisibleConfirm={setVisibleConfirm}
+        confirmFunc={confirmFunc}
+      />
     </div>
   );
 }

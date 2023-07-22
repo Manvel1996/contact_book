@@ -1,10 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { registerUser, loginUser } from "./AuthActions";
-
-import axios from "../../../utils/axios";
-
-import { API } from "../contacts/Api";
+import { registerUser, loginUser, getMe } from "./AuthActions";
 
 const initialState = {
   user: null,
@@ -13,15 +9,6 @@ const initialState = {
   token: null,
   contacts: [],
 };
-
-export const getMe = createAsyncThunk("auth/getMe", async () => {
-  try {
-    const { data } = await axios.get(API.AUTH);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -43,12 +30,14 @@ export const authSlice = createSlice({
     },
     [registerUser.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.status = "Success";
-      state.token = action.payload?._id;
-      state.user = action.payload;
+      state.status = action.payload?._id
+        ? "Success"
+        : "User with the same email or number already exists";
+      state.token = action.payload?._id ? action.payload?._id : null;
+      state.user = action.payload?._id ? action.payload : null;
     },
     [registerUser.rejected]: (state) => {
-      state.status = "FAIL";
+      state.status = "Server error";
       state.isLoading = false;
     },
 
@@ -58,28 +47,29 @@ export const authSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.status = action.payload?._id !== 0 ? "Success" : "User not a found";
-      state.token = action.payload?._id !== 0 ? action.payload?._id : null;
-      state.user = action.payload?._id !== 0 ? action.payload : null;
+      state.status = action.payload?._id
+        ? "Success"
+        : "Incorrect login or password";
+      state.token = action.payload?._id ? action.payload?._id : null;
+      state.user = action.payload?._id ? action.payload : null;
     },
     [loginUser.rejected]: (state) => {
-      state.status = "FAIL";
+      state.status = "Server error";
       state.isLoading = false;
     },
 
     [getMe.pending]: (state) => {
       state.isLoading = true;
       state.status = null;
-      state.info = null;
     },
     [getMe.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = null;
-      state.user = action.payload?.user;
-      state.token = action.payload?.token;
+      state.user = action.payload;
+      state.token = action.payload?._id;
     },
     [getMe.rejected]: (state) => {
-      state.status = "FAIL";
+      state.status = "Server error";
       state.isLoading = false;
     },
   },

@@ -63,12 +63,12 @@ export default function Register() {
 
   useEffect(() => {
     if (status) {
-      toast(status);
+      toast(status, { toastId: 1 });
     }
     if (isAuth) {
       navigate(ROUTE.HOME);
     }
-  }, [status, navigate, isAuth]);
+  }, [isAuth]);
 
   function submit(e) {
     e.preventDefault();

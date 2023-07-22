@@ -3,3 +3,5 @@ export const AUTH_GENDER = {
   FEMALE: "FEMALE",
   OTHER: "OTHER",
 };
+
+export const AUTH_TOKEN = "token"

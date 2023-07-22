@@ -1,57 +1,93 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import bcrypt from "bcryptjs";
 
-import { API } from "../contacts/Api";
+import { CURRENT_API } from "../../../constants/Api";
+import { AUTH_TOKEN } from "../../../constants/authConstants";
 
 import axios from "../../../utils/axios";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async ({ userName, surname, email, phone, password, photoUrl, gender }) => {
-    const { data } = await axios.post(
-      API.AUTH,
-      {
-        userName,
-        surname,
-        email,
-        phone,
-        password,
-        photoUrl,
-        gender,
-        contacts: [],
-      },
-      { headers: { "content-type": "application/json; charset=utf-8" } }
-    );
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    if (data._id) {
-      localStorage.setItem("token", data._id);
+    const { data } = await axios.get(CURRENT_API);
+
+    let uniqueUser = [];
+
+    if (data) {
+      uniqueUser = data?.filter(
+        (el) => el.phone === phone || el.email === email
+      );
     }
 
-    return data;
+    try {
+      if (uniqueUser.length > 0) {
+        throw false;
+      }
+
+      const { data } = await axios.post(
+        CURRENT_API,
+        {
+          userName,
+          surname,
+          email,
+          phone,
+          password: hashedPassword,
+          photoUrl,
+          gender,
+          contacts: [],
+        },
+        { headers: { "content-type": "application/json; charset=utf-8" } }
+      );
+
+      if (data._id) {
+        localStorage.setItem(AUTH_TOKEN, data._id);
+      }
+
+      return data;
+    } catch (error) {
+      return {};
+    }
   }
 );
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ mailOrPhone, password }) => {
-    const { data } = await axios.get(API.AUTH);
+    const { data } = await axios.get(CURRENT_API);
 
     const user = data.filter(
-      (el) =>
-        (el.phone === mailOrPhone || el.email === mailOrPhone) &&
-        password === el.password
+      (el) => el.phone === mailOrPhone || el.email === mailOrPhone
     );
 
-    if (user[0]._id) {
-      localStorage.setItem("token", user[0]._id);
-      return user[0];
+    try {
+      if (user[0]._id) {
+        const isPasswordCorrect = await bcrypt.compare(
+          password,
+          user[0].password
+        );
+        if (isPasswordCorrect) {
+          localStorage.setItem(AUTH_TOKEN, user[0]._id);
+          return user[0];
+        } else throw false;
+      }
+    } catch (error) {
+      return {};
     }
-
-    return { _id: 0 };
   }
 );
 
-export const checkIsAuth = (state) => !!state.auth.token;
+export const getMe = createAsyncThunk("auth/getMe", async () => {
+  const { data } = await axios.get(CURRENT_API);
 
-export const authStatus = (state) => state.auth.status;
+  const user = data.filter((el) => el._id === localStorage.getItem(AUTH_TOKEN));
 
-export const loadingState = (state) => state.auth.isLoading;
+  return user[0];
+});
+
+export const checkIsAuth = (state) => !!state.auth?.token;
+
+export const authStatus = (state) => state.auth?.status;
+
+export const loadingState = (state) => state.auth?.isLoading;

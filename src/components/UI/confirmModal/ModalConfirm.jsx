@@ -11,23 +11,25 @@ export default function ModalConfirm({
   return (
     <div
       className={`modal-confirm ${visibleConfirm && "modal-confirm--active"}`}
-      onClick={() => setVisibleConfirm(false)}
-    >
+      onClick={() => setVisibleConfirm(false)}>
       <div
         className={`modal__content ${visibleConfirm && "modal--active"}`}
-        onClick={(e) => e.stopPropagation()}
-      >
+        onClick={(e) => e.stopPropagation()}>
         <h2 className="modal-confirm__title">{title}</h2>
 
         <div className="modal-confirm__buttons">
-          <button className="button--green" onClick={confirmFunc}>
+          <button
+            className="button--green"
+            onClick={() => {
+              setVisibleConfirm(false);
+              confirmFunc();
+            }}>
             Yes
           </button>
 
           <button
             className="button--red"
-            onClick={() => setVisibleConfirm(false)}
-          >
+            onClick={() => setVisibleConfirm(false)}>
             No
           </button>
         </div>
