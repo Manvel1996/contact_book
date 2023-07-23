@@ -8,11 +8,9 @@ import {
   loginUser,
   checkIsAuth,
   authStatus,
-  loadingState,
 } from "../redux/features/auth/AuthActions";
 
 import Input from "../components/UI/input/Input";
-import Loader from "../components/UI/loader/Loader";
 
 import { ROUTE } from "../constants/routConstants";
 
@@ -28,7 +26,6 @@ export default function Login() {
 
   const status = useSelector(authStatus);
   const isAuth = useSelector(checkIsAuth);
-  const isLoading = useSelector(loadingState);
 
   const navigate = useNavigate();
 
@@ -59,56 +56,50 @@ export default function Login() {
   }
 
   return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="login">
-          <form onSubmit={submit} className="login-form ">
-            <h1 className="auth-title">Login</h1>
+    <div className="login">
+      <form onSubmit={submit} className="login-form ">
+        <h1 className="auth-title">Login</h1>
 
-            <Input
-              label="Phone or Email*"
-              id="user-name-id"
-              type="text"
-              placeholder="Phone or Email"
-              onChange={(e) => {
-                setMailOrPhone(e.target.value);
-                setPasswordErr(false);
-              }}
-              value={mailOrPhone}
-            />
+        <Input
+          label="Phone or Email*"
+          id="user-name-id"
+          type="text"
+          placeholder="Phone or Email"
+          onChange={(e) => {
+            setMailOrPhone(e.target.value);
+            setPasswordErr(false);
+          }}
+          value={mailOrPhone}
+        />
 
-            <Input
-              label="Password*"
-              id="password-id"
-              type="password"
-              placeholder="Password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setPasswordErr(false);
-              }}
-              value={password}
-              err={passwordErr}
-              errText="Incorrect login or password"
-            />
+        <Input
+          label="Password*"
+          id="password-id"
+          type="password"
+          placeholder="Password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setPasswordErr(false);
+          }}
+          value={password}
+          err={passwordErr}
+          errText="Incorrect login or password"
+        />
 
-            <div className="login-form-buttons">
-              <button type="submit" className="button--green" onClick={submit}>
-                Login
-              </button>
+        <div className="login-form-buttons">
+          <button type="submit" className="button--green" onClick={submit}>
+            Login
+          </button>
 
-              <button type="reset" className="button--red" onClick={clearForm}>
-                Reset
-              </button>
-            </div>
-
-            <Link to={ROUTE.REGISTER} className="form-link form-link--margin">
-              Create new account ?
-            </Link>
-          </form>
+          <button type="reset" className="button--red" onClick={clearForm}>
+            Reset
+          </button>
         </div>
-      )}
-    </>
+
+        <Link to={ROUTE.REGISTER} className="form-link form-link--margin">
+          Create new account ?
+        </Link>
+      </form>
+    </div>
   );
 }

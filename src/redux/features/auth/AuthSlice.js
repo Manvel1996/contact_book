@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { registerUser, loginUser, getMe } from "./AuthActions";
+import { registerUser, loginUser, getMe, edituser } from "./AuthActions";
 
 const initialState = {
   user: null,
@@ -52,6 +52,7 @@ export const authSlice = createSlice({
         : "Incorrect login or password";
       state.token = action.payload?._id ? action.payload?._id : null;
       state.user = action.payload?._id ? action.payload : null;
+      state.contacts = action.payload?._id ? action.payload.contacts : [];
     },
     [loginUser.rejected]: (state) => {
       state.status = "Server error";
@@ -69,6 +70,20 @@ export const authSlice = createSlice({
       state.token = action.payload?._id;
     },
     [getMe.rejected]: (state) => {
+      state.status = "Server error";
+      state.isLoading = false;
+    },
+
+    [edituser.pending]: (state) => {
+      state.isLoading = true;
+      state.status = null;
+    },
+    [edituser.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.status = action.payload?.message;
+      state.user = null;
+    },
+    [edituser.rejected]: (state) => {
       state.status = "Server error";
       state.isLoading = false;
     },

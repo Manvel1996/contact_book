@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import bcrypt from "bcryptjs";
 
 import { CURRENT_API } from "../../../constants/Api";
 import { AUTH_TOKEN } from "../../../constants/authConstants";
 
 import axios from "../../../utils/axios";
+
+
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -86,8 +89,66 @@ export const getMe = createAsyncThunk("auth/getMe", async () => {
   return user[0];
 });
 
+export const edituser = createAsyncThunk(
+  "auth/editUser",
+  async ({
+    id,
+    userName,
+    surname,
+    email,
+    phone,
+    password,
+    newPassword,
+    photoUrl,
+    gender,
+    contacts,
+  }) => {
+    try {
+      const { data } = await axios.get(CURRENT_API);
+
+      const user = data.filter(
+        (el) => el._id === localStorage.getItem(AUTH_TOKEN)
+      );
+
+      if (user[0]._id) {
+        const isPasswordCorrect = await bcrypt.compare(
+          password,
+          user[0].password
+        );
+
+        if (isPasswordCorrect) {
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+          const { data } = await axios.put(
+            CURRENT_API + "/" + id,
+            {
+              userName,
+              surname,
+              email,
+              phone,
+              password: hashedPassword,
+              photoUrl,
+              gender,
+              contacts,
+            },
+            { headers: { "content-type": "application/json; charset=utf-8" } }
+          );
+
+          return {message:"Change user sucsess"};
+        }return {message:"Change user faeil"}
+      }
+    } catch (error) {
+      return {
+        message: "Incorrect password",
+      };
+    }
+  }
+);
+
 export const checkIsAuth = (state) => !!state.auth?.token;
 
 export const authStatus = (state) => state.auth?.status;
 
 export const loadingState = (state) => state.auth?.isLoading;
+
+export const userInfo = (state) => state.auth?.user;
