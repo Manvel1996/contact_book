@@ -9,6 +9,8 @@ import {
   checkIsAuth,
   authStatus,
 } from "../redux/features/auth/AuthActions";
+// import { clearStatus } from "../redux/features";
+import { clearStatus } from "../redux/features/auth/AuthSlice";
 
 import Input from "../components/UI/input/Input";
 
@@ -32,6 +34,7 @@ export default function Login() {
   useEffect(() => {
     if (status) {
       toast(status, { toastId: 1 });
+      dispatch(clearStatus());
     }
     if (isAuth) {
       navigate(ROUTE.HOME);

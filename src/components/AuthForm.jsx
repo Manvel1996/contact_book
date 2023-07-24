@@ -2,23 +2,27 @@ import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import {
   authStatus,
-  edituser,
+  editUser,
   getMe,
   registerUser,
   userInfo,
 } from "../redux/features/auth/AuthActions";
+import { clearStatus } from "../redux/features/auth/AuthSlice";
 
 import Input from "./UI/input/Input";
 import Select from "./UI/select/Select";
 
 import { ROUTE } from "../constants/routConstants";
-import { AUTH_GENDER, AUTH_TOKEN } from "../constants/authConstants";
+import {
+  AUTH_GENDER,
+  AUTH_TOKEN,
+  AUTH_DEFAULT_IMG,
+} from "../constants/authConstants";
 import { PHONE_START } from "../constants/contactConstants";
-
-import "../assets/styles/components/AuthForm.scss";
 
 import {
   emailControl,
@@ -28,7 +32,7 @@ import {
   textControl,
 } from "../controllers/FormControl";
 
-import { toast } from "react-toastify";
+import "../assets/styles/components/AuthForm.scss";
 
 export default function AuthForm() {
   const [userName, setUserName] = useState("");
@@ -73,6 +77,9 @@ export default function AuthForm() {
         toast(status, { toastId: 1 });
       }
       navigate(ROUTE.HOME);
+    } else if (!user && currentUrl === ROUTE.REGISTER) {
+      toast(status, { toastId: 1 });
+      dispatch(clearStatus());
     } else if (user && currentUrl === ROUTE.PROFILE) {
       setUserName(user?.userName);
       setSurname(user?.surname);
@@ -90,7 +97,7 @@ export default function AuthForm() {
       }
       dispatch(getMe());
     }
-  }, [navigate,status]);
+  }, [status]);
 
   function submit(e) {
     e.preventDefault();
@@ -123,7 +130,7 @@ export default function AuthForm() {
       setPasswordErr(true);
     }
 
-    if (user && newPassword?.length < 5) {
+    if (user && newPassword?.length > 0 && newPassword?.length < 5) {
       setPasswordErr(true);
     }
 
@@ -156,7 +163,7 @@ export default function AuthForm() {
         phone
       ) ||
       password?.length < 5 ||
-      (user && newPassword?.length < 5) ||
+      (user && newPassword?.length > 0 && newPassword?.length < 5) ||
       (!user && password !== repeatPassword) ||
       (user && newPassword !== repeatPassword) ||
       (photoUrl?.length > 0 &&
@@ -169,7 +176,7 @@ export default function AuthForm() {
 
     user
       ? dispatch(
-          edituser({
+          editUser({
             id: user?._id,
             userName,
             surname,
@@ -223,11 +230,7 @@ export default function AuthForm() {
 
       <img
         className="auth-form__img"
-        src={
-          photoUrl
-            ? photoUrl
-            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGHNVV96RD44x7AcrTyk1kCptNtJOgvD8Hwg&usqp=CAU"
-        }
+        src={photoUrl ? photoUrl : AUTH_DEFAULT_IMG}
         alt="user"
       />
 
@@ -303,9 +306,14 @@ export default function AuthForm() {
           id="new-password-id"
           type="password"
           placeholder="New password"
-          onChange={(e) =>
-            passwordControl(e, setNewPassword, setNewPasswordErr)
-          }
+          onChange={(e) => {
+            if (e.target.value?.length > 0) {
+              passwordControl(e, setNewPassword, setNewPasswordErr);
+            } else {
+              setNewPassword(e.target.value);
+              setNewPasswordErr(false);
+            }
+          }}
           value={newPassword}
           err={newPasswordErr}
           errText="The new password must contain at least 5 characters"
@@ -327,7 +335,7 @@ export default function AuthForm() {
 
       <Select
         value={gender}
-        onChangeSelect={(val) => setGender(val)}
+        onChangeSelect={(e) => setGender(e.target.value)}
         defaultValue="Gender"
         options={[
           { value: AUTH_GENDER.OTHER, name: AUTH_GENDER.OTHER },

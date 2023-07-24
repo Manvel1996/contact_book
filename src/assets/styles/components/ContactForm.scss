@@ -1,5 +1,14 @@
 @import "../MainVariables.scss";
 
+.contact-form__image{
+  display: block;
+  margin: 0 auto;
+  object-fit: cover;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+}
+
 .contact-form-selects {
   display: flex;
   justify-content: space-between;

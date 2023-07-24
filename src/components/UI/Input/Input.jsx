@@ -2,7 +2,7 @@ import React from "react";
 import "./Input.scss";
 
 export default function Input({
-  label,
+  label="",
   id,
   type,
   placeholder,
@@ -13,7 +13,7 @@ export default function Input({
 }) {
   return (
     <>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} className="input-label">{label}</label>
       <div className="input-info">
         <input
           className="input"

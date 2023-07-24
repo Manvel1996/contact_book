@@ -4,10 +4,9 @@ import bcrypt from "bcryptjs";
 
 import { CURRENT_API } from "../../../constants/Api";
 import { AUTH_TOKEN } from "../../../constants/authConstants";
+import { CONTACT_TYPE } from "../../../constants/contactConstants";
 
 import axios from "../../../utils/axios";
-
-
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -40,6 +39,7 @@ export const registerUser = createAsyncThunk(
           photoUrl,
           gender,
           contacts: [],
+          types: [CONTACT_TYPE.ALL, CONTACT_TYPE.FAVORITE],
         },
         { headers: { "content-type": "application/json; charset=utf-8" } }
       );
@@ -89,7 +89,7 @@ export const getMe = createAsyncThunk("auth/getMe", async () => {
   return user[0];
 });
 
-export const edituser = createAsyncThunk(
+export const editUser = createAsyncThunk(
   "auth/editUser",
   async ({
     id,
@@ -106,9 +106,7 @@ export const edituser = createAsyncThunk(
     try {
       const { data } = await axios.get(CURRENT_API);
 
-      const user = data.filter(
-        (el) => el._id === localStorage.getItem(AUTH_TOKEN)
-      );
+      const user = data.filter((el) => el._id === id);
 
       if (user[0]._id) {
         const isPasswordCorrect = await bcrypt.compare(
@@ -117,16 +115,19 @@ export const edituser = createAsyncThunk(
         );
 
         if (isPasswordCorrect) {
-          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          let hashedPassword = null;
+          if (newPassword.length > 0) {
+            hashedPassword = await bcrypt.hash(newPassword, 10);
+          }
 
-          const { data } = await axios.put(
+          await axios.put(
             CURRENT_API + "/" + id,
             {
               userName,
               surname,
               email,
               phone,
-              password: hashedPassword,
+              password: hashedPassword ? hashedPassword : user[0].password,
               photoUrl,
               gender,
               contacts,
@@ -134,12 +135,13 @@ export const edituser = createAsyncThunk(
             { headers: { "content-type": "application/json; charset=utf-8" } }
           );
 
-          return {message:"Change user sucsess"};
-        }return {message:"Change user faeil"}
+          return { message: "Change user success" };
+        }
+        return { message: "Change user fail" };
       }
     } catch (error) {
       return {
-        message: "Incorrect password",
+        message: "Incorrect user",
       };
     }
   }
@@ -152,3 +154,7 @@ export const authStatus = (state) => state.auth?.status;
 export const loadingState = (state) => state.auth?.isLoading;
 
 export const userInfo = (state) => state.auth?.user;
+
+export const getContacts = (state) => state.auth?.contacts;
+
+export const getContactsTypes = (state) => state.auth?.types;

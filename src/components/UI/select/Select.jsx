@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./Select.scss";
 
 export default function Select({
@@ -8,16 +9,12 @@ export default function Select({
   onChangeSelect,
 }) {
   return (
-    <select
-      className="select"
-      value={value}
-      onChange={(e) => onChangeSelect(e.target.value)}
-    >
+    <select className="select" value={value} onChange={onChangeSelect}>
       <option className="select__item" value="" disabled>
         {defaultValue}
       </option>
 
-      {options.map((option) => (
+      {options?.map((option) => (
         <option
           className="select__item"
           value={option.value}

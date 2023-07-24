@@ -25,8 +25,12 @@ export default function Navbar() {
     dispatch(logOut());
     localStorage.removeItem(AUTH_TOKEN);
     toast("Уou are logged out");
-    navigate(ROUTE.LOGIN)
+    navigate(ROUTE.LOGIN);
   }
+
+  const activeStyles = {
+    color: "white",
+  };
 
   return (
     <div className="navbar">
@@ -39,23 +43,39 @@ export default function Navbar() {
       </a>
       {isAuth && (
         <ul className="navbar-list">
-          <li className="navbar-item">
-            <NavLink to={ROUTE.HOME} className="navbar-link">
+          <li className={"navbar-item"}>
+            <NavLink
+              to={ROUTE.HOME}
+              style={({ isActive }) => (isActive ? activeStyles : undefined)}
+              className="navbar-link"
+            >
               Home
             </NavLink>
           </li>
           <li className="navbar-item">
-            <NavLink to={ROUTE.PROFILE} className="navbar-link">
+            <NavLink
+              to={ROUTE.PROFILE}
+              style={({ isActive }) => (isActive ? activeStyles : undefined)}
+              className="navbar-link"
+            >
               My Profile
             </NavLink>
           </li>
           <li className="navbar-item">
-            <NavLink to={ROUTE.GROUPS} className="navbar-link">
+            <NavLink
+              to={ROUTE.GROUPS}
+              style={({ isActive }) => (isActive ? activeStyles : undefined)}
+              className="navbar-link"
+            >
               Groups
             </NavLink>
           </li>
           <li className="navbar-item">
-            <NavLink to={ROUTE.ALL_CONTACTS} className="navbar-link">
+            <NavLink
+              to={ROUTE.ALL_CONTACTS}
+              style={({ isActive }) => (isActive ? activeStyles : undefined)}
+              className="navbar-link"
+            >
               All Contacts
             </NavLink>
           </li>

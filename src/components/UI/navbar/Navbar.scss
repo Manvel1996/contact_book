@@ -10,31 +10,31 @@
   margin-bottom: 20px;
   box-shadow: 0 0 20px 0 black;
 
-  &__logo{
+  &__logo {
     height: 35px;
     cursor: pointer;
   }
 
-  &-list{
+  &-list {
     display: flex;
     justify-content: space-between;
     gap: 10px;
   }
 
-  &-item{
+  &-item {
     list-style: none;
   }
-  
-  &-link{
+
+  &-link {
     text-decoration: none;
     color: black;
     padding: 5px;
     transition: all 0.5s;
-    &:hover{
+
+    &:hover {
       background-color: white;
       border-radius: $radius;
-      color: $color;
+      color: $color !important;
     }
   }
 }
-

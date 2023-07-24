@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import Input from "./UI/input/Input";
 import Select from "./UI/select/Select";
+
 import {
   emailControl,
   phoneControl,
@@ -17,7 +18,12 @@ import {
   editContact,
 } from "../redux/features/contacts/ContactSlice";
 
-import { CONTACT_STATUS, CONTACT_TYPE, PHONE_START } from "../constants/contactConstants";
+import {
+  CONTACT_STATUS,
+  CONTACT_TYPE,
+  PHONE_START,
+} from "../constants/contactConstants";
+import { AUTH_DEFAULT_IMG } from "../constants/authConstants";
 
 import "../assets/styles/components/ContactForm.scss";
 
@@ -185,6 +191,23 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
 
   return (
     <form className="contact-form">
+      <img
+        className="contact-form__image"
+        src={photoUrl ? photoUrl : AUTH_DEFAULT_IMG}
+        alt="user"
+      />
+
+      <Input
+        label="Photo URL"
+        id="photo-url-id"
+        type="text"
+        placeholder="Photo URL"
+        onChange={(e) => photoUrlControl(e, setPhotoUrl, setPhotoUrlErr)}
+        value={photoUrl}
+        err={photoUrlErr}
+        errText="The link should look like this https://photoUrl"
+      />
+
       <Input
         label="Name*"
         id="user-name-id"
@@ -229,21 +252,10 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
         errText={`Write this way ${PHONE_START} 44 444 444`}
       />
 
-      <Input
-        label="Photo URL"
-        id="photo-url-id"
-        type="text"
-        placeholder="Photo URL"
-        onChange={(e) => photoUrlControl(e, setPhotoUrl, setPhotoUrlErr)}
-        value={photoUrl}
-        err={photoUrlErr}
-        errText="The link should look like this https://photoUrl"
-      />
-
       <div className="contact-form-selects">
         <Select
           value={status}
-          onChangeSelect={(val) => setStatus(val)}
+          onChangeSelect={(e) => setStatus(e.target.value)}
           defaultValue="STATUS"
           options={[
             { value: CONTACT_STATUS.ONLINE, name: CONTACT_STATUS.ONLINE },
@@ -253,7 +265,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
 
         <Select
           value={type}
-          onChangeSelect={(val) => setType(val)}
+          onChangeSelect={(e) => setType(e.target.value)}
           defaultValue="TYPE"
           options={[
             { value: CONTACT_TYPE.ALL, name: CONTACT_TYPE.ALL },

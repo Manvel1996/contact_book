@@ -10,6 +10,7 @@ import Modal from "./UI/modal/Modal";
 import { removeContact } from "../redux/features/contacts/ContactSlice";
 
 import { CONTACT_STATUS } from "../constants/contactConstants";
+import { AUTH_DEFAULT_IMG } from "../constants/authConstants";
 
 import "../assets/styles//components/ContactItem.scss";
 
@@ -37,7 +38,7 @@ export default function ContactItem({ contact }) {
           src={
             contact.photoUrl
               ? contact.photoUrl
-              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGHNVV96RD44x7AcrTyk1kCptNtJOgvD8Hwg&usqp=CAU"
+              : AUTH_DEFAULT_IMG
           }
         />
 
