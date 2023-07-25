@@ -10,7 +10,7 @@ import ContactForm from "../components/ContactForm";
 
 import {
   CONTACT_PAGE_GET_COUNT,
-  CONTACT_TYPE,
+  CONTACT_GROUP,
 } from "../constants/contactConstants";
 
 import { getContacts } from "../redux/features/auth/AuthActions";
@@ -24,12 +24,12 @@ export default function Home() {
 
   const favoriteContactsList = useSelector(getContacts)?.filter((el) => {
     if (
-      el.type === CONTACT_TYPE.FAVORITE &&
+      el.group === CONTACT_GROUP.FAVORITE &&
       search.trim().toLowerCase()?.length === 0
     ) {
       return true;
     } else if (
-      el.type === CONTACT_TYPE.FAVORITE &&
+      el.group === CONTACT_GROUP.FAVORITE &&
       search.trim().toLowerCase()?.length > 0 &&
       (el.userName.toLowerCase().includes(search.trim().toLowerCase()) ||
         el.surname.toLowerCase().includes(search.trim().toLowerCase()) ||

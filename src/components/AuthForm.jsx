@@ -77,7 +77,7 @@ export default function AuthForm() {
         toast(status, { toastId: 1 });
       }
       navigate(ROUTE.HOME);
-    } else if (!user && currentUrl === ROUTE.REGISTER) {
+    } else if (!user && currentUrl === ROUTE.REGISTER && status) {
       toast(status, { toastId: 1 });
       dispatch(clearStatus());
     } else if (user && currentUrl === ROUTE.PROFILE) {

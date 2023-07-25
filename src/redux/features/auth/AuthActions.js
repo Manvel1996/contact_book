@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 import { CURRENT_API } from "../../../constants/Api";
 import { AUTH_TOKEN } from "../../../constants/authConstants";
-import { CONTACT_TYPE } from "../../../constants/contactConstants";
+import { CONTACT_GROUP } from "../../../constants/contactConstants";
 
 import axios from "../../../utils/axios";
 
@@ -25,7 +25,7 @@ export const registerUser = createAsyncThunk(
 
     try {
       if (uniqueUser.length > 0) {
-        throw false;
+        return { message: "User with the same email or phone already exists" };
       }
 
       const { data } = await axios.post(
@@ -39,7 +39,7 @@ export const registerUser = createAsyncThunk(
           photoUrl,
           gender,
           contacts: [],
-          types: [CONTACT_TYPE.ALL, CONTACT_TYPE.FAVORITE],
+          groups: [CONTACT_GROUP.ALL, CONTACT_GROUP.FAVORITE],
         },
         { headers: { "content-type": "application/json; charset=utf-8" } }
       );
@@ -50,7 +50,7 @@ export const registerUser = createAsyncThunk(
 
       return data;
     } catch (error) {
-      return {};
+      return { message: "Server error" };
     }
   }
 );
@@ -73,20 +73,22 @@ export const loginUser = createAsyncThunk(
         if (isPasswordCorrect) {
           localStorage.setItem(AUTH_TOKEN, user[0]._id);
           return user[0];
-        } else throw false;
+        }
+
+        return { message: "Incorrect login or password" };
       }
     } catch (error) {
-      return {};
+      return { message: "Server error" };
     }
   }
 );
 
 export const getMe = createAsyncThunk("auth/getMe", async () => {
-  const { data } = await axios.get(CURRENT_API);
+  const { data } = await axios.get(
+    CURRENT_API + "/" + localStorage.getItem(AUTH_TOKEN)
+  );
 
-  const user = data.filter((el) => el._id === localStorage.getItem(AUTH_TOKEN));
-
-  return user[0];
+  return data;
 });
 
 export const editUser = createAsyncThunk(
@@ -104,15 +106,10 @@ export const editUser = createAsyncThunk(
     contacts,
   }) => {
     try {
-      const { data } = await axios.get(CURRENT_API);
+      const { data } = await axios.get(CURRENT_API + "/" + id);
 
-      const user = data.filter((el) => el._id === id);
-
-      if (user[0]._id) {
-        const isPasswordCorrect = await bcrypt.compare(
-          password,
-          user[0].password
-        );
+      if (data) {
+        const isPasswordCorrect = await bcrypt.compare(password, data.password);
 
         if (isPasswordCorrect) {
           let hashedPassword = null;
@@ -127,10 +124,11 @@ export const editUser = createAsyncThunk(
               surname,
               email,
               phone,
-              password: hashedPassword ? hashedPassword : user[0].password,
+              password: hashedPassword ? hashedPassword : data.password,
               photoUrl,
               gender,
               contacts,
+              groups: data.groups,
             },
             { headers: { "content-type": "application/json; charset=utf-8" } }
           );
@@ -147,6 +145,37 @@ export const editUser = createAsyncThunk(
   }
 );
 
+export const addContact = createAsyncThunk(
+  "auth/addContact",
+  async ({ newContact, userId }) => {
+    try {
+      const { data } = await axios.get(CURRENT_API + "/" + userId);
+
+      if (data) {
+        const newUser = {
+          userName: data.userName,
+          surname: data.surname,
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+          photoUrl: data.photoUrl,
+          gender: data.gender,
+          contacts: [newContact, ...data.contacts],
+          groups: data.groups,
+        };
+
+        await axios.put(CURRENT_API + "/" + userId, newUser, {
+          headers: { "content-type": "application/json; charset=utf-8" },
+        });
+
+        return { message: "Add contact success" };
+      }
+    } catch (error) {
+      return { message: "Add contact fail" };
+    }
+  }
+);
+
 export const checkIsAuth = (state) => !!state.auth?.token;
 
 export const authStatus = (state) => state.auth?.status;
@@ -157,4 +186,6 @@ export const userInfo = (state) => state.auth?.user;
 
 export const getContacts = (state) => state.auth?.contacts;
 
-export const getContactsTypes = (state) => state.auth?.types;
+export const getContactsGroups = (state) => state.auth?.groups;
+
+export const getUserId = (state) => state.auth?.user?._id;

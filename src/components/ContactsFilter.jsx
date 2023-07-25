@@ -6,11 +6,11 @@ import Select from "./UI/select/Select";
 import "../assets/styles/components/ContactsFilter.scss";
 
 export default function ContactsFilter({
-  contactsTypes,
-  type,
+  contactsGroups,
+  group,
   search,
   setSearch,
-  changeType,
+  changeGroup,
 }) {
   return (
     <div className="contacts-filter">
@@ -24,10 +24,10 @@ export default function ContactsFilter({
 
       <Select
         className="select"
-        value={type}
-        onChangeSelect={changeType}
-        defaultValue="TYPE"
-        options={contactsTypes?.map((el) => {
+        value={group}
+        onChangeSelect={changeGroup}
+        defaultValue="GROUP"
+        options={contactsGroups?.map((el) => {
           return { value: el, name: el };
         })}
       />

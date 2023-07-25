@@ -11,12 +11,12 @@ import Pagination from "../components/UI/pagination/Pagination";
 
 import {
   CONTACT_PAGE_GET_COUNT,
-  CONTACT_TYPE,
+  CONTACT_GROUP,
 } from "../constants/contactConstants";
 
 import {
   getContacts,
-  getContactsTypes,
+  getContactsGroups,
 } from "../redux/features/auth/AuthActions";
 
 import "../assets/styles/pages/ContactsBook.scss";
@@ -24,18 +24,18 @@ import "../assets/styles/pages/ContactsBook.scss";
 export default function AllContacts() {
   const [visible, setVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [type, setType] = useState(CONTACT_TYPE.ALL);
+  const [group, setGroup] = useState(CONTACT_GROUP.ALL);
   const [search, setSearch] = useState("");
 
-  const contactsTypes = useSelector(getContactsTypes);
+  const contactsGroups = useSelector(getContactsGroups);
 
   const contactsList = useSelector(getContacts)?.filter((el) => {
-    if (type === CONTACT_TYPE.ALL && search.trim()?.length === 0) {
+    if (group === CONTACT_GROUP.ALL && search.trim()?.length === 0) {
       return true;
-    } else if (el.type === type && search.trim()?.length === 0) {
+    } else if (el.group === group && search.trim()?.length === 0) {
       return true;
     } else if (
-      el.type === type &&
+      el.group === group &&
       search.trim()?.length > 0 &&
       (el.userName.toLowerCase().includes(search.trim().toLowerCase()) ||
         el.surname.toLowerCase().includes(search.trim().toLowerCase()) ||
@@ -52,8 +52,8 @@ export default function AllContacts() {
     sliceStart + CONTACT_PAGE_GET_COUNT
   );
 
-  function changeType(e) {
-    setType(e.target.value);
+  function changeGroup(e) {
+    setGroup(e.target.value);
     setCurrentPage(1);
   }
 
@@ -64,11 +64,11 @@ export default function AllContacts() {
   return (
     <div className="contacts-book">
       <ContactsFilter
-        contactsTypes={contactsTypes}
-        type={type}
+        contactsGroups={contactsGroups}
+        group={group}
         search={search}
         setSearch={setSearch}
-        changeType={changeType}
+        changeGroup={changeGroup}
       />
 
       <Button onClick={() => setVisible(true)}>Add Contact</Button>

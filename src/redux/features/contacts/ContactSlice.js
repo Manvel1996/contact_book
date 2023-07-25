@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
   CONTACT_PAGE_GET_COUNT,
-  CONTACT_TYPE,
+  CONTACT_GROUP,
 } from "../../../constants/contactConstants";
 
 const testUsers = [
@@ -476,7 +476,7 @@ const initialState = {
   contacts: testUsers,
   currentPage: 1,
   totalPage: CONTACT_PAGE_GET_COUNT,
-  type: CONTACT_TYPE.ALL,
+  group: CONTACT_GROUP.ALL,
   search: "",
 };
 

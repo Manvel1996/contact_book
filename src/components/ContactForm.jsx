@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import uuid from "react-uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import Input from "./UI/input/Input";
 import Select from "./UI/select/Select";
@@ -15,12 +16,14 @@ import {
 
 import {
   addContact,
-  editContact,
-} from "../redux/features/contacts/ContactSlice";
+  getUserId,
+  authStatus,
+  getMe,
+} from "../redux/features/auth/AuthActions";
 
 import {
   CONTACT_STATUS,
-  CONTACT_TYPE,
+  CONTACT_GROUP,
   PHONE_START,
 } from "../constants/contactConstants";
 import { AUTH_DEFAULT_IMG } from "../constants/authConstants";
@@ -46,7 +49,10 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
   const [photoUrlErr, setPhotoUrlErr] = useState(false);
 
   const [status, setStatus] = useState("");
-  const [type, setType] = useState(CONTACT_TYPE.ALL);
+  const [group, setGroup] = useState(CONTACT_GROUP.ALL);
+
+  const userId = useSelector(getUserId);
+  const statusState = useSelector(authStatus);
 
   useEffect(() => {
     if (editedContact) {
@@ -56,7 +62,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       setPhone(editedContact.phone);
       setPhotoUrl(editedContact.photoUrl);
       setStatus(editedContact.status);
-      setType(editedContact.type);
+      setGroup(editedContact.group);
 
       if (
         editedContact?.userName?.length >= 2 &&
@@ -97,6 +103,10 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
         setPhotoUrlErr(false);
       }
     }
+    if (statusState) {
+      toast(statusState, { toastId: 1 });
+      dispatch(getMe());
+    }
   }, [visible]);
 
   function clearForm() {
@@ -111,7 +121,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
     setPhotoUrl("");
     setPhotoUrlErr(false);
     setStatus("");
-    setType(CONTACT_TYPE.ALL);
+    setGroup(CONTACT_GROUP.ALL);
   }
 
   function submit(e) {
@@ -176,13 +186,13 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       phone,
       photoUrl,
       status,
-      type,
+      group,
     };
 
     if (editedContact) {
-      dispatch(editContact(newContact));
+      // dispatch(editContact(newContact));
     } else {
-      dispatch(addContact(newContact));
+      dispatch(addContact({ newContact, userId }));
     }
 
     clearForm();
@@ -264,12 +274,12 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
         />
 
         <Select
-          value={type}
-          onChangeSelect={(e) => setType(e.target.value)}
-          defaultValue="TYPE"
+          value={group}
+          onChangeSelect={(e) => setGroup(e.target.value)}
+          defaultValue="GROUP"
           options={[
-            { value: CONTACT_TYPE.ALL, name: CONTACT_TYPE.ALL },
-            { value: CONTACT_TYPE.FAVORITE, name: CONTACT_TYPE.FAVORITE },
+            { value: CONTACT_GROUP.ALL, name: CONTACT_GROUP.ALL },
+            { value: CONTACT_GROUP.FAVORITE, name: CONTACT_GROUP.FAVORITE },
           ]}
         />
       </div>
