@@ -19,6 +19,7 @@ import {
   getUserId,
   authStatus,
   getMe,
+  editContact,
 } from "../redux/features/auth/AuthActions";
 
 import {
@@ -102,7 +103,8 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       ) {
         setPhotoUrlErr(false);
       }
-    }
+    } else clearForm();
+
     if (statusState) {
       toast(statusState, { toastId: 1 });
       dispatch(getMe());
@@ -190,7 +192,7 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
     };
 
     if (editedContact) {
-      // dispatch(editContact(newContact));
+      dispatch(editContact({ newContact, userId }));
     } else {
       dispatch(addContact({ newContact, userId }));
     }

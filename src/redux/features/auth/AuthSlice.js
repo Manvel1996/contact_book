@@ -6,6 +6,8 @@ import {
   getMe,
   editUser,
   addContact,
+  editContact,
+  removeContact,
 } from "./AuthActions";
 
 const initialState = {
@@ -97,7 +99,6 @@ export const authSlice = createSlice({
     [editUser.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = action.payload?.message;
-      state.user = null;
     },
     [editUser.rejected]: (state) => {
       state.status = "Server error";
@@ -111,9 +112,34 @@ export const authSlice = createSlice({
     [addContact.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = action.payload?.message;
-      state.user = null;
     },
     [addContact.rejected]: (state, action) => {
+      state.status = action.payload?.message;
+      state.isLoading = false;
+    },
+
+    [editContact.pending]: (state) => {
+      state.isLoading = true;
+      state.status = null;
+    },
+    [editContact.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.status = action.payload?.message;
+    },
+    [editContact.rejected]: (state, action) => {
+      state.status = action.payload?.message;
+      state.isLoading = false;
+    },
+
+    [removeContact.pending]: (state) => {
+      state.isLoading = true;
+      state.status = null;
+    },
+    [removeContact.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.status = action.payload?.message;
+    },
+    [removeContact.rejected]: (state, action) => {
       state.status = action.payload?.message;
       state.isLoading = false;
     },

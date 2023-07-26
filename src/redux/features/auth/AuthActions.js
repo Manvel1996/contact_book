@@ -176,6 +176,77 @@ export const addContact = createAsyncThunk(
   }
 );
 
+export const editContact = createAsyncThunk(
+  "auth/editContact",
+  async ({ newContact, userId }) => {
+    try {
+      const { data } = await axios.get(CURRENT_API + "/" + userId);
+
+      const contacts = data?.contacts?.map((el) => {
+        if (el.id === newContact.id) {
+          return newContact;
+        }
+        return el;
+      });
+
+      if (data) {
+        const newUser = {
+          userName: data.userName,
+          surname: data.surname,
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+          photoUrl: data.photoUrl,
+          gender: data.gender,
+          contacts,
+          groups: data.groups,
+        };
+
+        await axios.put(CURRENT_API + "/" + userId, newUser, {
+          headers: { "content-type": "application/json; charset=utf-8" },
+        });
+
+        return { message: "Edit contact success" };
+      }
+    } catch (error) {
+      return { message: "Edit contact fail" };
+    }
+  }
+);
+
+export const removeContact = createAsyncThunk(
+  "auth/removeContact",
+  async ({ id, userId }) => {
+    try {
+      const { data } = await axios.get(CURRENT_API + "/" + userId);
+
+      const contacts = data?.contacts?.filter((el) => el.id !== id);
+
+      if (data) {
+        const newUser = {
+          userName: data.userName,
+          surname: data.surname,
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+          photoUrl: data.photoUrl,
+          gender: data.gender,
+          contacts,
+          groups: data.groups,
+        };
+
+        await axios.put(CURRENT_API + "/" + userId, newUser, {
+          headers: { "content-type": "application/json; charset=utf-8" },
+        });
+
+        return { message: "Remove contact success" };
+      }
+    } catch (error) {
+      return { message: "Remove contact fail" };
+    }
+  }
+);
+
 export const checkIsAuth = (state) => !!state.auth?.token;
 
 export const authStatus = (state) => state.auth?.status;

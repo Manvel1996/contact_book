@@ -10,6 +10,7 @@ import Layout from "./components/Layout";
 import AppRouter from "./components/AppRouter";
 
 import { ROUTE } from "./constants/routConstants";
+import { AUTH_TOKEN } from "./constants/authConstants";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/Main.scss";
@@ -22,7 +23,7 @@ function App() {
   const currentUrl = location.pathname;
 
   useEffect(() => {
-    if (currentUrl !== ROUTE.LOGIN && currentUrl !== ROUTE.REGISTER) {
+    if (currentUrl !== ROUTE.LOGIN && currentUrl !== ROUTE.REGISTER && localStorage.getItem(AUTH_TOKEN)) {
       dispatch(getMe());
     }
   }, [dispatch]);

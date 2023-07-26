@@ -1,33 +1,36 @@
 import React, { useState } from "react";
 
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import ContactForm from "./ContactForm";
 import ModalConfirm from "./UI/confirmModal/ModalConfirm";
-import Modal from "./UI/modal/Modal";
 
-import { removeContact } from "../redux/features/contacts/ContactSlice";
+import { getUserId, removeContact } from "../redux/features/auth/AuthActions";
 
 import { CONTACT_STATUS } from "../constants/contactConstants";
 import { AUTH_DEFAULT_IMG } from "../constants/authConstants";
 
 import "../assets/styles//components/ContactItem.scss";
 
-export default function ContactItem({ contact }) {
-  const [visible, setVisible] = useState(false);
+export default function ContactItem({
+  contact,
+  openModal,
+  changeEditedContact,
+}) {
   const [visibleConfirm, setVisibleConfirm] = useState(false);
 
   const dispatch = useDispatch();
+  const userId = useSelector(getUserId);
 
   const id = contact?.id;
 
-  function closeModal() {
-    setVisible(false);
+  function confirmFunc() {
+    dispatch(removeContact({ id, userId }));
   }
 
-  function confirmFunc() {
-    dispatch(removeContact(id));
+  function editContact(contact) {
+    changeEditedContact(contact);
+    openModal();
   }
 
   return (
@@ -35,11 +38,7 @@ export default function ContactItem({ contact }) {
       <div className="contact-info">
         <img
           className="contact-info__img"
-          src={
-            contact.photoUrl
-              ? contact.photoUrl
-              : AUTH_DEFAULT_IMG
-          }
+          src={contact.photoUrl ? contact.photoUrl : AUTH_DEFAULT_IMG}
         />
 
         <div
@@ -53,14 +52,15 @@ export default function ContactItem({ contact }) {
 
       <p className="contact-item__name">{contact.userName}</p>
       <p className="contact-item__surname">{contact.surname}</p>
-      {contact.email && <p className="contact-item__email">{contact.email}</p>}
+      <p className="contact-item__email">{contact.email}</p>
       <p className="contact-item__phone">{contact.phone}</p>
 
       <div className="contact-buttons">
         <AiFillEdit
           className="contact-buttons__button"
-          onClick={() => setVisible(true)}
+          onClick={() => editContact(contact)}
         />
+
         <AiFillDelete
           className="contact-buttons__button"
           onClick={() => setVisibleConfirm(true)}
@@ -73,14 +73,6 @@ export default function ContactItem({ contact }) {
         setVisibleConfirm={setVisibleConfirm}
         confirmFunc={confirmFunc}
       />
-
-      <Modal visible={visible} setVisible={setVisible}>
-        <ContactForm
-          closeModal={closeModal}
-          editedContact={contact}
-          visible={visible}
-        />
-      </Modal>
     </div>
   );
 }

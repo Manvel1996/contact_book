@@ -26,6 +26,7 @@ export default function AllContacts() {
   const [currentPage, setCurrentPage] = useState(1);
   const [group, setGroup] = useState(CONTACT_GROUP.ALL);
   const [search, setSearch] = useState("");
+  const [editedContact, setEditedContact] = useState(null);
 
   const contactsGroups = useSelector(getContactsGroups);
 
@@ -61,6 +62,19 @@ export default function AllContacts() {
     setVisible(false);
   }
 
+  function openModal() {
+    setVisible(true);
+  }
+
+  function changeEditedContact(contact) {
+    setEditedContact(contact);
+  }
+
+  function openAddContact() {
+    setEditedContact(null)
+    setVisible(true);
+  }
+
   return (
     <div className="contacts-book">
       <ContactsFilter
@@ -71,9 +85,13 @@ export default function AllContacts() {
         changeGroup={changeGroup}
       />
 
-      <Button onClick={() => setVisible(true)}>Add Contact</Button>
+      <Button onClick={openAddContact}>Add Contact</Button>
 
-      <ContactList contactsList={contactsListSlice} />
+      <ContactList
+        contactsList={contactsListSlice}
+        openModal={openModal}
+        changeEditedContact={changeEditedContact}
+      />
 
       {contactsList?.length !== 0 && (
         <Pagination
@@ -85,7 +103,11 @@ export default function AllContacts() {
       )}
 
       <Modal visible={visible} setVisible={setVisible}>
-        <ContactForm closeModal={closeModal} />
+        <ContactForm
+          editedContact={editedContact}
+          closeModal={closeModal}
+          visible={visible}
+        />
       </Modal>
     </div>
   );
