@@ -8,6 +8,7 @@ import {
   addContact,
   editContact,
   removeContact,
+  addNewGroup,
 } from "./AuthActions";
 
 const initialState = {
@@ -140,6 +141,19 @@ export const authSlice = createSlice({
       state.status = action.payload?.message;
     },
     [removeContact.rejected]: (state, action) => {
+      state.status = action.payload?.message;
+      state.isLoading = false;
+    },
+
+    [addNewGroup.pending]: (state) => {
+      state.isLoading = true;
+      state.status = null;
+    },
+    [addNewGroup.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.status = action.payload?.message;
+    },
+    [addNewGroup.rejected]: (state, action) => {
       state.status = action.payload?.message;
       state.isLoading = false;
     },

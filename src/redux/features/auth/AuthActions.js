@@ -247,6 +247,37 @@ export const removeContact = createAsyncThunk(
   }
 );
 
+export const addNewGroup = createAsyncThunk(
+  "auth/addNewGroup",
+  async ({ groupName, userId }) => {
+    try {
+      const { data } = await axios.get(CURRENT_API + "/" + userId);
+
+      if (data) {
+        const newUser = {
+          userName: data.userName,
+          surname: data.surname,
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+          photoUrl: data.photoUrl,
+          gender: data.gender,
+          contacts: data.contacts,
+          groups: [...data.groups, groupName],
+        };
+
+        await axios.put(CURRENT_API + "/" + userId, newUser, {
+          headers: { "content-type": "application/json; charset=utf-8" },
+        });
+
+        return { message: "Add contact success" };
+      }
+    } catch (error) {
+      return { message: "Add contact fail" };
+    }
+  }
+);
+
 export const checkIsAuth = (state) => !!state.auth?.token;
 
 export const authStatus = (state) => state.auth?.status;

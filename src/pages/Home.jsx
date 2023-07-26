@@ -21,6 +21,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [visible, setVisible] = useState(false);
+  const [editedContact, setEditedContact] = useState(null);
 
   const favoriteContactsList = useSelector(getContacts)?.filter((el) => {
     if (
@@ -40,10 +41,6 @@ export default function Home() {
     }
   });
 
-  function pageChange(pageNumber) {
-    setCurrentPage(pageNumber);
-  }
-
   const sliceStart = CONTACT_PAGE_GET_COUNT * (currentPage - 1);
   const contactsListSlice = favoriteContactsList
     ? favoriteContactsList.slice(
@@ -52,12 +49,24 @@ export default function Home() {
       )
     : [];
 
+  function pageChange(pageNumber) {
+    setCurrentPage(pageNumber);
+  }
+
   function searchContact(e) {
     setSearch(e.target.value);
   }
 
   function closeModal() {
     setVisible(false);
+  }
+
+  function openModal() {
+    setVisible(true);
+  }
+
+  function changeEditedContact(contact) {
+    setEditedContact(contact);
   }
 
   return (
@@ -71,7 +80,11 @@ export default function Home() {
         value={search}
       />
 
-      <ContactList contactsList={contactsListSlice} />
+      <ContactList
+        contactsList={contactsListSlice}
+        openModal={openModal}
+        changeEditedContact={changeEditedContact}
+      />
 
       {contactsListSlice?.length !== 0 && (
         <Pagination
@@ -83,7 +96,11 @@ export default function Home() {
       )}
 
       <Modal visible={visible} setVisible={setVisible}>
-        <ContactForm closeModal={closeModal} />
+        <ContactForm
+          editedContact={editedContact}
+          closeModal={closeModal}
+          visible={visible}
+        />
       </Modal>
     </div>
   );

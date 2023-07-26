@@ -76,7 +76,7 @@ export default function AllContacts() {
   }
 
   return (
-    <div className="contacts-book">
+    <div className="all-contacts">
       <ContactsFilter
         contactsGroups={contactsGroups}
         group={group}

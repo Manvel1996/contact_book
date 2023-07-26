@@ -1,7 +1,13 @@
-.all-contacts {
+.contacts-group {
   margin: 0 auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &-adders{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+  }
 }

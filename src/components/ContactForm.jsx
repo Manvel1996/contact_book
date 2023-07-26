@@ -20,6 +20,7 @@ import {
   authStatus,
   getMe,
   editContact,
+  getContactsGroups,
 } from "../redux/features/auth/AuthActions";
 
 import {
@@ -32,8 +33,6 @@ import { AUTH_DEFAULT_IMG } from "../constants/authConstants";
 import "../assets/styles/components/ContactForm.scss";
 
 export default function ContactForm({ closeModal, editedContact, visible }) {
-  const dispatch = useDispatch();
-
   const [userName, setUserName] = useState("");
   const [userNameErr, setUserNameErr] = useState(false);
 
@@ -54,6 +53,9 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
 
   const userId = useSelector(getUserId);
   const statusState = useSelector(authStatus);
+  const contactsGroups = useSelector(getContactsGroups);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (editedContact) {
@@ -279,10 +281,9 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
           value={group}
           onChangeSelect={(e) => setGroup(e.target.value)}
           defaultValue="GROUP"
-          options={[
-            { value: CONTACT_GROUP.ALL, name: CONTACT_GROUP.ALL },
-            { value: CONTACT_GROUP.FAVORITE, name: CONTACT_GROUP.FAVORITE },
-          ]}
+          options={contactsGroups?.map((el) => {
+            return { value: el, name: el };
+          })}
         />
       </div>
 

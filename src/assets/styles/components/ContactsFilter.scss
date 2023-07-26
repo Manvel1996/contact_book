@@ -3,3 +3,11 @@
   display: flex;
   gap: 20px;
 }
+
+@media screen and (max-width: 600px) {
+  .contacts-filter {
+    flex-direction: column;
+    padding: 10px;
+    margin-bottom: 50px;
+  }
+}
