@@ -1,28 +1,48 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import "./Select.scss";
 
 export default function Select({
   options,
-  defaultValue,
-  value,
   onChangeSelect,
+  value,
+  defaultValue,
 }) {
-  return (
-    <select className="select" value={value} onChange={onChangeSelect}>
-      <option className="select__item" value="" disabled>
-        {defaultValue}
-      </option>
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
 
-      {options?.map((option) => (
-        <option
-          className="select__item"
-          value={option.value}
-          key={option.value}
-        >
-          {option.name}
-        </option>
-      ))}
-    </select>
+  useEffect(() => {
+    setSelectedOption(value);
+  }, [value]);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const optionSelect = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+    onChangeSelect(option);
+  };
+
+  return (
+    <div className={`select ${isOpen ? "open" : ""}`}>
+      <div className="select__header" onClick={toggleDropdown}>
+        {selectedOption || `Select an option ${defaultValue}`}
+      </div>
+      {isOpen && (
+        <ul className="select__options">
+          {options.map((option) => (
+            <li
+              key={option}
+              onClick={() => optionSelect(option)}
+              className={`select__option ${
+                option === selectedOption ? "selected" : ""
+              }`}>
+              {option}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

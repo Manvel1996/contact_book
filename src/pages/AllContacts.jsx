@@ -53,8 +53,8 @@ export default function AllContacts() {
     sliceStart + CONTACT_PAGE_GET_COUNT
   );
 
-  function changeGroup(e) {
-    setGroup(e.target.value);
+  function changeGroup(value) {
+    setGroup(value);
     setCurrentPage(1);
   }
 

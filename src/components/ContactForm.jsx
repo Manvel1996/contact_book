@@ -269,21 +269,16 @@ export default function ContactForm({ closeModal, editedContact, visible }) {
       <div className="contact-form-selects">
         <Select
           value={status}
-          onChangeSelect={(e) => setStatus(e.target.value)}
+          onChangeSelect={(value) => setStatus(value)}
           defaultValue="STATUS"
-          options={[
-            { value: CONTACT_STATUS.ONLINE, name: CONTACT_STATUS.ONLINE },
-            { value: CONTACT_STATUS.OFFLINE, name: CONTACT_STATUS.OFFLINE },
-          ]}
+          options={[CONTACT_STATUS.ONLINE, CONTACT_STATUS.OFFLINE]}
         />
 
         <Select
           value={group}
-          onChangeSelect={(e) => setGroup(e.target.value)}
+          onChangeSelect={(value) => setGroup(value)}
           defaultValue="GROUP"
-          options={contactsGroups?.map((el) => {
-            return { value: el, name: el };
-          })}
+          options={contactsGroups}
         />
       </div>
 

@@ -335,13 +335,9 @@ export default function AuthForm() {
 
       <Select
         value={gender}
-        onChangeSelect={(e) => setGender(e.target.value)}
+        onChangeSelect={(value) => setGender(value)}
         defaultValue="Gender"
-        options={[
-          { value: AUTH_GENDER.OTHER, name: AUTH_GENDER.OTHER },
-          { value: AUTH_GENDER.MALE, name: AUTH_GENDER.MALE },
-          { value: AUTH_GENDER.FEMALE, name: AUTH_GENDER.FEMALE },
-        ]}
+        options={[AUTH_GENDER.OTHER, AUTH_GENDER.MALE, AUTH_GENDER.FEMALE]}
       />
 
       <div className="auth-form-buttons">

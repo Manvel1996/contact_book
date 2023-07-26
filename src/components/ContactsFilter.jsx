@@ -23,13 +23,10 @@ export default function ContactsFilter({
       />
 
       <Select
-        className="select"
-        value={group}
         onChangeSelect={changeGroup}
+        options={contactsGroups}
+        value={group}
         defaultValue="GROUP"
-        options={contactsGroups?.map((el) => {
-          return { value: el, name: el };
-        })}
       />
     </div>
   );
