@@ -9,10 +9,17 @@ export default function BurgerMenu({
   navLinks,
   activeMobileMenu,
   setActiveMobileMenu,
+  logger,
+  openConfirm,
 }) {
   const activeStyles = {
     color: "rgb(0, 172, 238)",
   };
+
+  function mobileLogger() {
+    !logger.href && openConfirm();
+    setActiveMobileMenu(false);
+  }
 
   return (
     <div
@@ -34,6 +41,13 @@ export default function BurgerMenu({
               </NavLink>
             </li>
           ))}
+          <NavLink
+            className="burger-menu__link"
+            to={logger.href}
+            onClick={mobileLogger}
+          >
+            {logger.value}
+          </NavLink>
         </ul>
       </div>
     </div>

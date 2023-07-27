@@ -76,6 +76,8 @@ export default function Header() {
         menuHeader="Contacts list"
         activeMobileMenu={activeMobileMenu}
         setActiveMobileMenu={setActiveMobileMenu}
+        logger={logger}
+        openConfirm={openConfirm}
       />
 
       <ModalConfirm

@@ -24,8 +24,8 @@
 
 @media screen and (max-width: 600px) {
   .contact-form-selects {
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     gap: 80px;
     margin-bottom: 80px;
   }
