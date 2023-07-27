@@ -8,6 +8,16 @@
   &-adders{
     display: flex;
     flex-wrap: wrap;
-    gap: 50px;
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .contacts-group {
+    padding: 10px;
+
+    &-adders{
+      gap: 10px;
+    }
   }
 }

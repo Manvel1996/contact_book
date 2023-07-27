@@ -100,6 +100,7 @@ export const authSlice = createSlice({
     [editUser.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = action.payload?.message;
+      state.user = null;
     },
     [editUser.rejected]: (state) => {
       state.status = "Server error";
@@ -113,6 +114,7 @@ export const authSlice = createSlice({
     [addContact.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = action.payload?.message;
+      state.user = null;
     },
     [addContact.rejected]: (state, action) => {
       state.status = action.payload?.message;
@@ -126,6 +128,7 @@ export const authSlice = createSlice({
     [editContact.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = action.payload?.message;
+      state.user = null;
     },
     [editContact.rejected]: (state, action) => {
       state.status = action.payload?.message;
@@ -139,6 +142,7 @@ export const authSlice = createSlice({
     [removeContact.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = action.payload?.message;
+      state.user = null;
     },
     [removeContact.rejected]: (state, action) => {
       state.status = action.payload?.message;
@@ -152,6 +156,7 @@ export const authSlice = createSlice({
     [addNewGroup.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.status = action.payload?.message;
+      state.user = null;
     },
     [addNewGroup.rejected]: (state, action) => {
       state.status = action.payload?.message;

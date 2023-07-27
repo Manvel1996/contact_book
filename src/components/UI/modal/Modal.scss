@@ -14,13 +14,22 @@
   pointer-events: none;
   transition: 0.5s;
 
-  &__content {
+  &-content {
+    position: relative;
     padding: 25px;
     min-width: 250px;
     background-color: rgb(255, 255, 255);
     border-radius: $radius;
     transform: scale(0.5);
     transition: 0.4s all;
+
+    &__close {
+      font-size: 2rem;
+      position: absolute;
+      cursor: pointer;
+      right: 10px;
+      top: 10px;
+    }
   }
 
   &--active {
@@ -30,7 +39,7 @@
     transform: scale(1);
   }
 
-  &__content &--active {
+  &-content &--active {
     transform: scale(1.1);
   }
 }

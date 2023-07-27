@@ -1,13 +1,13 @@
 import React from "react";
 
-import Navbar from "./UI/navbar/Navbar";
+import Header from "./Header";
 
 import "../assets/styles/components/Layout.scss";
 
 export default function Layout({ children }) {
   return (
     <div className="layout">
-      <Navbar />
+      <Header />
       {children}
     </div>
   );

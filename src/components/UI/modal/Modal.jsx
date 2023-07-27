@@ -1,5 +1,7 @@
 import React from "react";
 
+import { AiOutlineClose } from "react-icons/ai";
+
 import "./Modal.scss";
 
 export default function Modal({ children, visible, setVisible }) {
@@ -9,9 +11,13 @@ export default function Modal({ children, visible, setVisible }) {
       onClick={() => setVisible(false)}
     >
       <div
-        className={`modal__content  ${visible && "modal--active"}`}
+        className={`modal-content  ${visible && "modal--active"}`}
         onClick={(e) => e.stopPropagation()}
       >
+        <AiOutlineClose
+          className="modal-content__close"
+          onClick={() => setVisible(false)}
+        />
         {children}
       </div>
     </div>
